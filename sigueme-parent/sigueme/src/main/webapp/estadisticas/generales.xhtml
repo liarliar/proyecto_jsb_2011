@@ -12,18 +12,18 @@
 				<h:panelGroup layout="block">
 					<h:panelGroup layout="block" style="text-align:center;">Diario</h:panelGroup>
 					<h:panelGroup layout="block">
-						<p:calendar mode="popup"></p:calendar>
-						<h:selectOneMenu>
-							<f:selectItem itemLabel="#{msg['estadisticas.porciones']}"
-								itemValue="pie" />
-							<f:selectItem itemLabel="#{msg['estadisticas.lineas']}"
-								itemValue="line" />
-							<f:selectItem itemLabel="#{msg['estadisticas.barras']}"
-								itemValue="bar" />
+						<p:calendar mode="popup" value="#{generalesPorDiaView.fecha}">
+						</p:calendar>
+						<h:selectOneMenu value="#{generalesPorDiaView.tipoGrafico}">
+							<f:selectItems value="#{generalesPorDiaView.tiposGrafico}"
+								var="tipo" itemLabel="#{msg[tipo.label]}" itemValue="#{tipo}" />
+							<p:ajax event="change" update="graficoDia" />
 						</h:selectOneMenu>
 					</h:panelGroup>
-					<p:pieChart value="#{generalesView.resultados}" var="resultado"
-						categoryField="#{resultado.sala}" dataField="#{resultado.valor}" />
+					<h:panelGroup layout="block" id="graficoDia">
+						<p:pieChart value="#{generalesView.resultados}" var="resultado"
+							categoryField="#{resultado.sala}" dataField="#{resultado.valor}" />
+					</h:panelGroup>
 				</h:panelGroup>
 				<h:panelGroup layout="block">
 					<h:panelGroup layout="block" style="text-align:center;">Semanal</h:panelGroup>
@@ -58,7 +58,7 @@
 							<f:selectItem itemLabel="Noviembre" itemValue="pie" />
 							<f:selectItem itemLabel="Diciembre" itemValue="pie" />
 						</h:selectOneMenu>
-						<p:spinner value="2011"/>
+						<p:spinner value="2011" />
 						<h:selectOneMenu>
 							<f:selectItem itemLabel="#{msg['estadisticas.porciones']}"
 								itemValue="pie" />
@@ -74,7 +74,7 @@
 				<h:panelGroup layout="block">
 					<h:panelGroup layout="block" style="text-align:center;">Anual</h:panelGroup>
 					<h:panelGroup layout="block">
-						<p:spinner value="2011"/>
+						<p:spinner value="2011" />
 						<h:selectOneMenu>
 							<f:selectItem itemLabel="#{msg['estadisticas.porciones']}"
 								itemValue="pie" />

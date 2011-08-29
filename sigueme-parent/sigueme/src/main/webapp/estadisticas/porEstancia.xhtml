@@ -10,18 +10,15 @@
 		<h:form id="estadisticas">
 			<p:panel header="#{msg['estadisticas.estadisticasTemporales']}"
 				toggleable="true" toggleSpeed="100">
-				<h:panelGroup
-					style="width:260px; display:inline-block; vertical-align: top;"
-					layout="block">
+				<h:panelGroup style="margin-right:5px;">
 					<h:outputText value="#{msg['estadisticas.fechaDesde']}" />: <p:calendar
 						value="#{porEstanciaView.desde}" showOn="button" />
-					<br />
-					<br />
+				</h:panelGroup>
+				<h:panelGroup style="margin-right:5px;">
 					<h:outputText value="#{msg['estadisticas.fechaHasta']}" />: <p:calendar
 						value="#{porEstanciaView.hasta}" showOn="button" />
 				</h:panelGroup>
-				<h:panelGroup layout="block"
-					style="width:346px;display:inline; vertical-align: top;">
+				<h:panelGroup style="margin-right:5px;">
 					<h:outputText value="#{msg['estadisticas.tiempoEstancia']}" />:
 						<h:selectOneMenu id="tiempoEstancia"
 						value="#{porEstanciaView.tiempoEstancia}">
