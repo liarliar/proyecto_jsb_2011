@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	
+	<changeSet author="jsb" id="1">
+		<comment>Creación de la tabla MensajeRFID y Zona</comment>
+		<createTable tableName="mensajeRFID">
+			<column name="id" type="INT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="tipo" type="character varying(2)">
+				<constraints nullable="false" />
+			</column>
+			<column name="direccionCorta" type="character varying(4)">
+				<constraints nullable="false" />
+			</column>
+			<column name="fecha" type="DATETIME">
+				<constraints nullable="false"/>
+			</column>
+			<column name="direccionLarga" type="character varying(16)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="idPuerta" type="INT"/>
+		</createTable>
+		<createTable tableName="zona">
+			<column name="id" type="INT" autoIncrement="true">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="nombre" type="character varying(25)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		<createTable tableName="puerta">
+			<column name="id" type="INT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="nombre" type="VARCHAR(25)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="idZona1" type="INT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="idZona2" type="INT">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		<addForeignKeyConstraint constraintName="FK_MENSAJE_PUERTA" referencedTableName="puerta" baseColumnNames="idPuerta" baseTableName="mensajeRFID" referencedColumnNames="id"/>	
+		<addForeignKeyConstraint constraintName="FK_ZONA_PUERTA" referencedTableName="zona" baseColumnNames="idZona1" baseTableName="puerta" referencedColumnNames="id"/>
+		<addForeignKeyConstraint constraintName="FK_PUERTA_ZONA" referencedTableName="zona" baseColumnNames="idZona2" baseTableName="puerta" referencedColumnNames="id"/>
+	</changeSet>
+	
+	<changeSet id="2" author="jsb">
+		<comment>Inserción de datos de prueba</comment>
+		<insert tableName="zona">
+			<column name="id" valueNumeric="1"/>
+			<column name="nombre" value="Zona 1"/>
+		</insert>
+		<insert tableName="zona">
+			<column name="id" valueNumeric="2"/>
+			<column name="nombre" value="Zona 2"/>
+		</insert>
+		<insert tableName="zona">
+			<column name="id" valueNumeric="3"/>
+			<column name="nombre" value="Zona 3"/>
+		</insert>
+		<insert tableName="zona">
+			<column name="id" valueNumeric="4"/>
+			<column name="nombre" value="Zona 4"/>
+		</insert>
+		<insert tableName="zona">
+			<column name="id" valueNumeric="5"/>
+			<column name="nombre" value="Zona 5"/>
+		</insert>
+
+		<insert tableName="puerta">
+			<column name="id" valueNumeric="1"/>
+			<column name="nombre" value="puerta_z1_z2"></column>
+			<column name="idZona1" valueNumeric="1"/>
+			<column name="idZona2" valueNumeric="2"/>
+		</insert>
+		<insert tableName="puerta">
+			<column name="id" valueNumeric="2"/>
+			<column name="nombre" value="puerta_z2_z3"></column>
+			<column name="idZona1" valueNumeric="2"/>
+			<column name="idZona2" valueNumeric="3"/>
+		</insert>
+		<insert tableName="puerta">
+			<column name="id" valueNumeric="3"/>
+			<column name="nombre" value="puerta_z2_z4"></column>
+			<column name="idZona1" valueNumeric="2"/>
+			<column name="idZona2" valueNumeric="4"/>
+		</insert>
+		<insert tableName="puerta">
+			<column name="id" valueNumeric="4"/>
+			<column name="nombre" value="puerta_z2_z5"></column>
+			<column name="idZona1" valueNumeric="2"/>
+			<column name="idZona2" valueNumeric="5"/>
+		</insert>
+		<insert tableName="mensajeRFID">
+			<column name="id" valueNumeric="1"/>
+			<column name="tipo" value="NW"/>
+			<column name="direccionCorta" value="7971"/>
+			<column name="fecha" valueDate="2011-04-04T17:13:33"/>
+			<column name="direccionLarga" value="00124B00011F6E26"/>
+			<column name="idPuerta" valueNumeric="1"/>
+		</insert>
+		<insert tableName="mensajeRFID">
+			<column name="id" valueNumeric="2"/>
+			<column name="tipo" value="RM"/>
+			<column name="direccionCorta" value="7971"/>
+			<column name="fecha" valueDate="2011-04-04T17:14:23"/>
+			<column name="direccionLarga" value="28AF220100000001"/>
+			<column name="idPuerta" valueNumeric="2"/>
+		</insert>
+		<insert tableName="mensajeRFID">
+			<column name="id" valueNumeric="3"/>
+			<column name="tipo" value="RM"/>
+			<column name="direccionCorta" value="7971"/>
+			<column name="fecha" valueDate="2011-04-04T17:13:33"/>
+			<column name="direccionLarga" value="28AF220100000001"/>
+			<column name="idPuerta" valueNumeric="2"/>
+		</insert>
+	</changeSet>
+</databaseChangeLog> 
