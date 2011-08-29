@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+<ui:composition template="/WEB-INF/templates/layout.xhtml">
+	<ui:define name="content">
+		<h:form id="estadisticas">
+			<p:panel header="#{msg['estadisticas.estadisticasTemporales']}"
+				toggleable="true" toggleSpeed="100">
+				<h:panelGroup
+					style="width:260px; display:inline-block; vertical-align: top;"
+					layout="block">
+					<h:outputText value="#{msg['estadisticas.fechaDesde']}" />: <p:calendar
+						value="#{porVisitasView.desde}" showOn="button" />
+					<br />
+					<br />
+					<h:outputText value="#{msg['estadisticas.fechaHasta']}" />: <p:calendar
+						value="#{porVisitasView.hasta}" showOn="button" />
+				</h:panelGroup>
+				<h:panelGroup layout="block"
+					style="width:346px;display:inline; ; vertical-align: top;">
+					<h:outputText value="#{msg['estadisticas.numeroVisitas']}" />:
+						<h:selectOneMenu id="numeroVisitas"
+						value="#{porVisitasView.numeroVisitas}">
+						<f:selectItem itemLabel="#{msg['estadisticas.sinvalor']}"
+							itemValue="" />
+						<f:selectItems value="#{porVisitasView.tiposNumeroVisitas}"
+							var="tipo" itemLabel="#{msg[tipo.label]}" itemValue="#{tipo}" />
+					</h:selectOneMenu>
+				</h:panelGroup>
+				<div style="text-align: right;">
+					<p:commandButton value="#{msg['boton.verResultados']}"
+						action="#{porVisitasView.verResultados}" update="tabs" />
+				</div>
+			</p:panel>
+			<p:spacer />
+			<h:panelGroup layout="block" id="tabs">
+				<p:tabView rendered="#{porVisitasView.verTabsResultados}">
+					<p:tab title="#{msg['estadisticas.enTabla']}">
+						<p:dataTable value="#{porVisitasView.resultados}" var="resultado">
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="#{msg['estadisticas.sala']}" />
+								</f:facet>
+								<h:outputText value="#{resultado.sala}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="#{msg['estadisticas.tiempo']}" />
+								</f:facet>
+								<h:outputText value="#{resultado.valor}" />
+							</p:column>
+						</p:dataTable>
+					</p:tab>
+					<p:tab title="#{msg['estadisticas.enMapa']}">
+						<h:panelGroup layout="block" id="mapa">
+						</h:panelGroup>
+					</p:tab>
+					<p:tab title="#{msg['estadisticas.enGrafica']}">
+						<h:panelGroup layout="block">
+							<p:pieChart value="#{porVisitasView.resultados}" var="resultado"
+								categoryField="#{resultado.sala}" dataField="#{resultado.valor}"
+								width="100%" />
+						</h:panelGroup>
+					</p:tab>
+				</p:tabView>
+			</h:panelGroup>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

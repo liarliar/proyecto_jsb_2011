@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+<ui:composition template="/WEB-INF/templates/layout.xhtml">
+	<ui:define name="content">
+		<h:form id="generales">
+			<h:panelGrid columns="2">
+				<h:panelGroup layout="block">
+					<h:panelGroup layout="block" style="text-align:center;">Diario</h:panelGroup>
+					<h:panelGroup layout="block">
+						<p:calendar mode="popup"></p:calendar>
+						<h:selectOneMenu>
+							<f:selectItem itemLabel="#{msg['estadisticas.porciones']}"
+								itemValue="pie" />
+							<f:selectItem itemLabel="#{msg['estadisticas.lineas']}"
+								itemValue="line" />
+							<f:selectItem itemLabel="#{msg['estadisticas.barras']}"
+								itemValue="bar" />
+						</h:selectOneMenu>
+					</h:panelGroup>
+					<p:pieChart value="#{generalesView.resultados}" var="resultado"
+						categoryField="#{resultado.sala}" dataField="#{resultado.valor}" />
+				</h:panelGroup>
+				<h:panelGroup layout="block">
+					<h:panelGroup layout="block" style="text-align:center;">Semanal</h:panelGroup>
+					<h:panelGroup layout="block">
+						<p:calendar mode="popup" showWeek="true"></p:calendar>
+						<h:selectOneMenu>
+							<f:selectItem itemLabel="#{msg['estadisticas.porciones']}"
+								itemValue="pie" />
+							<f:selectItem itemLabel="#{msg['estadisticas.lineas']}"
+								itemValue="line" />
+							<f:selectItem itemLabel="#{msg['estadisticas.barras']}"
+								itemValue="bar" />
+						</h:selectOneMenu>
+					</h:panelGroup>
+					<p:pieChart value="#{generalesView.resultados}" var="resultado"
+						categoryField="#{resultado.sala}" dataField="#{resultado.valor}" />
+				</h:panelGroup>
+				<h:panelGroup layout="block">
+					<h:panelGroup layout="block" style="text-align:center;">Menual</h:panelGroup>
+					<h:panelGroup layout="block">
+						<h:selectOneMenu>
+							<f:selectItem itemLabel="Enero" itemValue="pie" />
+							<f:selectItem itemLabel="Febrero" itemValue="pie" />
+							<f:selectItem itemLabel="Marzo" itemValue="pie" />
+							<f:selectItem itemLabel="Abril" itemValue="pie" />
+							<f:selectItem itemLabel="Mayo" itemValue="pie" />
+							<f:selectItem itemLabel="Junio" itemValue="pie" />
+							<f:selectItem itemLabel="Julio" itemValue="pie" />
+							<f:selectItem itemLabel="Agosto" itemValue="pie" />
+							<f:selectItem itemLabel="Septiembre" itemValue="pie" />
+							<f:selectItem itemLabel="Octubre" itemValue="pie" />
+							<f:selectItem itemLabel="Noviembre" itemValue="pie" />
+							<f:selectItem itemLabel="Diciembre" itemValue="pie" />
+						</h:selectOneMenu>
+						<p:spinner value="2011"/>
+						<h:selectOneMenu>
+							<f:selectItem itemLabel="#{msg['estadisticas.porciones']}"
+								itemValue="pie" />
+							<f:selectItem itemLabel="#{msg['estadisticas.lineas']}"
+								itemValue="line" />
+							<f:selectItem itemLabel="#{msg['estadisticas.barras']}"
+								itemValue="bar" />
+						</h:selectOneMenu>
+					</h:panelGroup>
+					<p:pieChart value="#{generalesView.resultados}" var="resultado"
+						categoryField="#{resultado.sala}" dataField="#{resultado.valor}" />
+				</h:panelGroup>
+				<h:panelGroup layout="block">
+					<h:panelGroup layout="block" style="text-align:center;">Anual</h:panelGroup>
+					<h:panelGroup layout="block">
+						<p:spinner value="2011"/>
+						<h:selectOneMenu>
+							<f:selectItem itemLabel="#{msg['estadisticas.porciones']}"
+								itemValue="pie" />
+							<f:selectItem itemLabel="#{msg['estadisticas.lineas']}"
+								itemValue="line" />
+							<f:selectItem itemLabel="#{msg['estadisticas.barras']}"
+								itemValue="bar" />
+						</h:selectOneMenu>
+					</h:panelGroup>
+					<p:pieChart value="#{generalesView.resultados}" var="resultado"
+						categoryField="#{resultado.sala}" dataField="#{resultado.valor}" />
+				</h:panelGroup>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
