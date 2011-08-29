@@ -21,7 +21,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 @Entity
-@Table (name="mensajeRFID")
+@Table (name="mensajerfid")
 @NamedQuery (name="MensajeRFID.getMensajesRFID", query="from MensajeRFID")
 public class MensajeRFID {
 	@Id
@@ -32,15 +32,17 @@ public class MensajeRFID {
 	@NotNull
 	private TipoMensaje tipo;
 	@NotNull
+	@Column (name="direccioncorta")
 	private String direccionCorta;
 	@NotNull
 	@Temporal (TemporalType.TIMESTAMP)
 	private Date fecha;
 	@NotNull
+	@Column (name="direccionlarga")
 	private String direccionLarga;
 	@NotNull
 	@ManyToOne
-	@JoinColumn (name="idPuerta", nullable=false, referencedColumnName="id" )
+	@JoinColumn (name="idpuerta", nullable=false, referencedColumnName="id" )
 	private Puerta puerta;
 	
 	public Integer getId() {

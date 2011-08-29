@@ -22,11 +22,11 @@ public class Puerta {
 	private String nombre;
 	@NotNull
 	@ManyToOne
-	@JoinColumn (name="idZona1", nullable=false, referencedColumnName="id")
+	@JoinColumn (name="idzona1", nullable=false, referencedColumnName="id")
 	private Zona zona1;
 	@NotNull
 	@ManyToOne
-	@JoinColumn (name="idZona2", nullable=false, referencedColumnName="id")
+	@JoinColumn (name="idzona2", nullable=false, referencedColumnName="id")
 	private Zona zona2;
 	
 	public Integer getId() {

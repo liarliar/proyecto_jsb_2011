@@ -6,5 +6,13 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui">
 <ui:composition>
 	<h1>Cabecera de la aplicación</h1>
+	<div id="menu">
+		<h:form>
+			<p:menubar>
+				<p:menuitem value="#{msg['menu.errores']}" url="errores.xhtml"/>
+				<p:menuitem value="#{msg['menu.estadisticas']}" url="estadisticas.xhtml"/>
+			</p:menubar>
+		</h:form>
+	</div>
 </ui:composition>
 </html>
