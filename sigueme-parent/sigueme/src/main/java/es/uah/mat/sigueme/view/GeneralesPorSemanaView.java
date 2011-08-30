@@ -16,7 +16,7 @@ import org.primefaces.model.chart.PieChartModel;
 
 @ManagedBean
 @ViewScoped
-public class GeneralesPorDiaView implements Serializable {
+public class GeneralesPorSemanaView implements Serializable {
 	
 	/**
 	 * 
@@ -27,7 +27,7 @@ public class GeneralesPorDiaView implements Serializable {
 	private List<TipoGrafico> tiposGrafico;	
 	private ChartModel chartModel;
 	
-	public GeneralesPorDiaView () {
+	public GeneralesPorSemanaView () {
 		fecha = new Date();
 		tipoGrafico = TipoGrafico.PORCIONES;
 		tiposGrafico = Arrays.asList(TipoGrafico.values());
@@ -55,8 +55,9 @@ public class GeneralesPorDiaView implements Serializable {
 			for (int j = 1; j < 6; j++) {
 				ChartSeries serie = new ChartSeries("Sala " + j);
 				
-				for (int i = 8; i < 19; i++) {
-					serie.set(i + "-" + (i+1), RandomUtils.nextInt(1000));
+				for (DiaSemana diaSemana : DiaSemana.values()) {
+					//TODO Internacionalizar el dia de la semana
+					serie.set(diaSemana.name(), RandomUtils.nextInt(1000));					
 				}
 				cartesinaModel.addSeries(serie);				
 			}

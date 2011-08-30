@@ -17,29 +17,39 @@
 						<h:selectOneMenu value="#{generalesPorDiaView.tipoGrafico}">
 							<f:selectItems value="#{generalesPorDiaView.tiposGrafico}"
 								var="tipo" itemLabel="#{msg[tipo.label]}" itemValue="#{tipo}" />
-							<p:ajax event="change" update="graficoDia" />
+							<p:ajax event="change" update="graficoDia"
+								listener="#{generalesPorDiaView.cambioTipoGrafico}" />
 						</h:selectOneMenu>
 					</h:panelGroup>
 					<h:panelGroup layout="block" id="graficoDia">
-						<p:pieChart value="#{generalesView.resultados}" var="resultado"
-							categoryField="#{resultado.sala}" dataField="#{resultado.valor}" />
+						<p:pieChart model="#{generalesPorDiaView.chartModel}"
+							rendered="#{generalesPorDiaView.tipoGrafico == 'PORCIONES'}" />
+						<p:barChart model="#{generalesPorDiaView.chartModel}"
+							rendered="#{generalesPorDiaView.tipoGrafico == 'BARRAS'}" />
+						<p:lineChart model="#{generalesPorDiaView.chartModel}"
+							rendered="#{generalesPorDiaView.tipoGrafico == 'LINEAS'}" />
 					</h:panelGroup>
 				</h:panelGroup>
 				<h:panelGroup layout="block">
 					<h:panelGroup layout="block" style="text-align:center;">Semanal</h:panelGroup>
 					<h:panelGroup layout="block">
-						<p:calendar mode="popup" showWeek="true"></p:calendar>
-						<h:selectOneMenu>
-							<f:selectItem itemLabel="#{msg['estadisticas.porciones']}"
-								itemValue="pie" />
-							<f:selectItem itemLabel="#{msg['estadisticas.lineas']}"
-								itemValue="line" />
-							<f:selectItem itemLabel="#{msg['estadisticas.barras']}"
-								itemValue="bar" />
+						<p:calendar mode="popup" showWeek="true" value="#{generalesPorSemanaView.fecha}"/>
+						<h:selectOneMenu value="#{generalesPorSemanaView.tipoGrafico}">
+							<f:selectItems value="#{generalesPorSemanaView.tiposGrafico}"
+								var="tipo" itemLabel="#{msg[tipo.label]}" itemValue="#{tipo}" />
+							<p:ajax event="change" update="graficoSemana"
+								listener="#{generalesPorSemanaView.cambioTipoGrafico}" />
 						</h:selectOneMenu>
 					</h:panelGroup>
-					<p:pieChart value="#{generalesView.resultados}" var="resultado"
-						categoryField="#{resultado.sala}" dataField="#{resultado.valor}" />
+					<h:panelGroup layout="block" id="graficoSemana">
+						<p:pieChart model="#{generalesPorSemanaView.chartModel}"
+							rendered="#{generalesPorSemanaView.tipoGrafico == 'PORCIONES'}" />
+						<p:barChart model="#{generalesPorSemanaView.chartModel}"
+							rendered="#{generalesPorSemanaView.tipoGrafico == 'BARRAS'}" />
+						<p:lineChart model="#{generalesPorSemanaView.chartModel}"
+							rendered="#{generalesPorSemanaView.tipoGrafico == 'LINEAS'}" />
+					</h:panelGroup>
+
 				</h:panelGroup>
 				<h:panelGroup layout="block">
 					<h:panelGroup layout="block" style="text-align:center;">Menual</h:panelGroup>
@@ -57,35 +67,46 @@
 							<f:selectItem itemLabel="Octubre" itemValue="pie" />
 							<f:selectItem itemLabel="Noviembre" itemValue="pie" />
 							<f:selectItem itemLabel="Diciembre" itemValue="pie" />
+							
+							<p:ajax event="change" update="graficoMensual"
+								listener="#{generalesPorMesView.cambioTipoGrafico}" />
 						</h:selectOneMenu>
 						<p:spinner value="2011" />
-						<h:selectOneMenu>
-							<f:selectItem itemLabel="#{msg['estadisticas.porciones']}"
-								itemValue="pie" />
-							<f:selectItem itemLabel="#{msg['estadisticas.lineas']}"
-								itemValue="line" />
-							<f:selectItem itemLabel="#{msg['estadisticas.barras']}"
-								itemValue="bar" />
+						<h:selectOneMenu value="#{generalesPorMesView.tipoGrafico}">
+							<f:selectItems value="#{generalesPorMesView.tiposGrafico}"
+								var="tipo" itemLabel="#{msg[tipo.label]}" itemValue="#{tipo}" />
+							<p:ajax event="change" update="graficoMensual"
+								listener="#{generalesPorMesView.cambioTipoGrafico}" />
 						</h:selectOneMenu>
 					</h:panelGroup>
-					<p:pieChart value="#{generalesView.resultados}" var="resultado"
-						categoryField="#{resultado.sala}" dataField="#{resultado.valor}" />
+					<h:panelGroup layout="block" id="graficoMensual">
+						<p:pieChart model="#{generalesPorMesView.chartModel}"
+							rendered="#{generalesPorMesView.tipoGrafico == 'PORCIONES'}" />
+						<p:barChart model="#{generalesPorMesView.chartModel}"
+							rendered="#{generalesPorMesView.tipoGrafico == 'BARRAS'}" />
+						<p:lineChart model="#{generalesPorMesView.chartModel}"
+							rendered="#{generalesPorMesView.tipoGrafico == 'LINEAS'}" />
+					</h:panelGroup>
 				</h:panelGroup>
 				<h:panelGroup layout="block">
 					<h:panelGroup layout="block" style="text-align:center;">Anual</h:panelGroup>
 					<h:panelGroup layout="block">
 						<p:spinner value="2011" />
-						<h:selectOneMenu>
-							<f:selectItem itemLabel="#{msg['estadisticas.porciones']}"
-								itemValue="pie" />
-							<f:selectItem itemLabel="#{msg['estadisticas.lineas']}"
-								itemValue="line" />
-							<f:selectItem itemLabel="#{msg['estadisticas.barras']}"
-								itemValue="bar" />
+						<h:selectOneMenu value="#{generalesPorAnioView.tipoGrafico}">
+							<f:selectItems value="#{generalesPorAnioView.tiposGrafico}"
+								var="tipo" itemLabel="#{msg[tipo.label]}" itemValue="#{tipo}" />
+							<p:ajax event="change" update="graficoAnual"
+								listener="#{generalesPorAnioView.cambioTipoGrafico}" />
 						</h:selectOneMenu>
 					</h:panelGroup>
-					<p:pieChart value="#{generalesView.resultados}" var="resultado"
-						categoryField="#{resultado.sala}" dataField="#{resultado.valor}" />
+					<h:panelGroup layout="block" id="graficoAnual">
+						<p:pieChart model="#{generalesPorAnioView.chartModel}"
+							rendered="#{generalesPorAnioView.tipoGrafico == 'PORCIONES'}" />
+						<p:barChart model="#{generalesPorAnioView.chartModel}"
+							rendered="#{generalesPorAnioView.tipoGrafico == 'BARRAS'}" />
+						<p:lineChart model="#{generalesPorAnioView.chartModel}"
+							rendered="#{generalesPorAnioView.tipoGrafico == 'LINEAS'}" />
+					</h:panelGroup>
 				</h:panelGroup>
 			</h:panelGrid>
 		</h:form>

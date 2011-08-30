@@ -2,6 +2,7 @@ package es.uah.mat.sigueme.view;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import org.primefaces.model.chart.PieChartModel;
 
 @ManagedBean
 @ViewScoped
-public class GeneralesPorDiaView implements Serializable {
+public class GeneralesPorMesView implements Serializable {
 	
 	/**
 	 * 
@@ -27,7 +28,7 @@ public class GeneralesPorDiaView implements Serializable {
 	private List<TipoGrafico> tiposGrafico;	
 	private ChartModel chartModel;
 	
-	public GeneralesPorDiaView () {
+	public GeneralesPorMesView () {
 		fecha = new Date();
 		tipoGrafico = TipoGrafico.PORCIONES;
 		tiposGrafico = Arrays.asList(TipoGrafico.values());
@@ -54,9 +55,12 @@ public class GeneralesPorDiaView implements Serializable {
 			
 			for (int j = 1; j < 6; j++) {
 				ChartSeries serie = new ChartSeries("Sala " + j);
-				
-				for (int i = 8; i < 19; i++) {
-					serie.set(i + "-" + (i+1), RandomUtils.nextInt(1000));
+				Calendar calendar = Calendar.getInstance();
+				int lastDate = calendar.getActualMaximum(Calendar.DATE);
+				calendar.set(Calendar.DATE, lastDate);
+			
+				for (int i = 1; i <= calendar.get(Calendar.DAY_OF_MONTH); i++) {
+					serie.set("" + i, RandomUtils.nextInt(1000));					
 				}
 				cartesinaModel.addSeries(serie);				
 			}
