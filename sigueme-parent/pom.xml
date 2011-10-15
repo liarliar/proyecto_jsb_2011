@@ -15,6 +15,7 @@
 	<modules>
 		<module>sigueme-model</module>
 		<module>sigueme</module>
+		<module>sigueme-simulador</module>
 	</modules>
 	<scm>
 		<connection>scm:git:git://github.com/liarliar/proyecto_jsb_2011.git</connection>
