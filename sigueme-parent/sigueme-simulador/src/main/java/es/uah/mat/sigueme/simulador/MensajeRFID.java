@@ -1,10 +1,16 @@
 package es.uah.mat.sigueme.simulador;
 
+import java.text.*;
 import java.util.*;
 
 
 public class MensajeRFID {
 
+	private TipoMensaje tipo;
+	private String direccionCorta;
+	private Date fecha;
+	private String direccionLarga;
+	
 	public TipoMensaje getTipo() {
 		return tipo;
 	}
@@ -29,15 +35,11 @@ public class MensajeRFID {
 	public void setDireccionLarga(String direccionLarga) {
 		this.direccionLarga = direccionLarga;
 	}
-	private TipoMensaje tipo;
-	private String direccionCorta;
-	private Date fecha;
-	private String direccionLarga;
 
 	public String toString()
 	{
-		// TODO formatear la fecha
-		return this.tipo.toString()+this.getDireccionCorta()+this.fecha.toString()+
-				this.direccionLarga;
+		DateFormat df = new SimpleDateFormat("ddMMyyHHmmss");
+		return tipo.toString()+getDireccionCorta()+df.format(fecha)+
+				direccionLarga;
 	}
 }
