@@ -10,16 +10,17 @@ import es.uah.mat.sigueme.simulador.*;
 
 public class CargadorRFID {
 
-	protected File getFicheroDireccionesTarjetasRFID() throws URISyntaxException {
-		return new File(CargadorRFID.class.getResource("/TarjetasSistema.txt").toURI());
+	protected InputStream getFicheroDireccionesTarjetasRFID() throws URISyntaxException {
+		return CargadorRFID.class.getResourceAsStream("/TarjetasSistema.txt");
 	}
 
 	public List<TarjetaRFID> getTarjetasRFID() {
 		List<TarjetaRFID> tarjetas = new ArrayList<TarjetaRFID>();
 		try {
-			File file = getFicheroDireccionesTarjetasRFID();
-			List<String> lines = FileUtils.readLines(file);
-			for (String direccionLarga : lines) {
+			BufferedReader br = new BufferedReader(new InputStreamReader(getFicheroDireccionesTarjetasRFID()));
+			
+			String direccionLarga = null;
+			while ( (direccionLarga = br.readLine()) != null) {
 				tarjetas.add(new TarjetaRFID(direccionLarga));
 			}
 		} catch (Exception e) {
