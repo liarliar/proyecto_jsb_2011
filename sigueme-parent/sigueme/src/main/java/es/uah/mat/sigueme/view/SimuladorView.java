@@ -15,6 +15,10 @@ import es.uah.mat.sigueme.simulador.cargador.*;
 @ManagedBean
 @ViewScoped
 public class SimuladorView implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Date desde;
 	private Date hasta;
 	private Integer horaInicio;
