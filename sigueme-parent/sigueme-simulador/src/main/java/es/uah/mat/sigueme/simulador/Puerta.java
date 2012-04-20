@@ -1,6 +1,5 @@
 package es.uah.mat.sigueme.simulador;
 
-import javax.swing.text.StyledEditorKit.*;
 
 public class Puerta {
 	private String direccionLarga;

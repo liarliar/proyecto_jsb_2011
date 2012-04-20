@@ -1,8 +1,5 @@
 package es.uah.mat.sigueme.simulador;
 
-import java.util.*;
-
-import es.uah.mat.sigueme.simulador.cargador.*;
 
 public class Biblioteca {
 

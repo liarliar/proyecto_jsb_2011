@@ -1,13 +1,12 @@
 package es.uah.mat.sigueme.view.converter;
 
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
+import javax.faces.component.*;
+import javax.faces.context.*;
+import javax.faces.convert.*;
 
-import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.util.ClassUtils;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.jsf.FacesContextUtils;
+import org.springframework.context.support.*;
+import org.springframework.web.context.*;
+import org.springframework.web.jsf.*;
 
 
 

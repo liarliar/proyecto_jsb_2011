@@ -9,21 +9,22 @@
 	<ui:define name="content">
 		Contenido de la pagina
 		<h:form id="mensajes">
-			<p:dataTable value="#{mensajesRFIDView.mensajesRFID}" var="mensaje">
-				<p:column sortBy="#{mensaje.id}">
+			<p:dataTable value="#{mensajesRFIDView.mensajesRFID}" var="mensaje" paginator="true" rows="10" pageLinks="5"  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                 rowsPerPageTemplate="10,30,50">
+				<p:column>
 					<f:facet name="header">
 						<h:outputText value="#{msg['MensajeRFID_id']}" />
 					</f:facet>
 					<h:outputText value="#{mensaje.id}">
 					</h:outputText>
 				</p:column>
-				<p:column sortBy="#{mensaje.tipo}">
+				<p:column>
 					<f:facet name="header">
 						<h:outputText value="#{msg['MensajeRFID_tipo']}" />
 					</f:facet>
 					<h:outputText value="#{mensaje.tipo}" />
 				</p:column>
-				<p:column sortBy="#{mensaje.direccionCorta}">
+				<p:column>
 					<f:facet name="header">
 						<h:outputText value="#{msg['MensajeRFID_direccionCorta']}" />
 					</f:facet>

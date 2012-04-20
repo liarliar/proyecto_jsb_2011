@@ -16,6 +16,10 @@ import es.uah.mat.sigueme.persistence.MensajeRFIDRepository;
 @ViewScoped
 public class MensajesRFIDView implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5148059215422280559L;
 	@ManagedProperty("#{mensajeRFIDRepository}")
 	private transient MensajeRFIDRepository mensajeRFIDRepository;
 	private List<MensajeRFID> mensajes;

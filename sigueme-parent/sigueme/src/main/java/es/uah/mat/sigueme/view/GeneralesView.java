@@ -1,17 +1,13 @@
 package es.uah.mat.sigueme.view;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.*;
 
-import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang.math.*;
 
-import es.uah.mat.sigueme.bean.Resultado;
+import es.uah.mat.sigueme.bean.*;
 
 @ManagedBean
 @ViewScoped

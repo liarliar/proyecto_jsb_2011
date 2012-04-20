@@ -1,28 +1,15 @@
 package es.uah.mat.sigueme.persistence;
 
-import java.util.Date;
+import java.util.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
+import javax.validation.constraints.*;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.*;
+
 
 @Entity
 @Table (name="mensajerfid")
-@NamedQuery (name="MensajeRFID.getMensajesRFID", query="from MensajeRFID")
 public class MensajeRFID {
 	@Id
 	@GeneratedValue (strategy=GenerationType.AUTO)

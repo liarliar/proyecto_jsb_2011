@@ -4,8 +4,6 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-import org.apache.commons.io.*;
-
 import es.uah.mat.sigueme.simulador.*;
 
 public class CargadorRFID {

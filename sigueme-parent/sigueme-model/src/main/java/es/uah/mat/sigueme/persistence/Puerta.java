@@ -17,7 +17,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 public class Puerta {
 	@Id
 	@GeneratedValue (strategy=GenerationType.AUTO)
-	private Integer id;
+	private String id;
 	@NotNull
 	private String nombre;
 	@NotNull
@@ -29,10 +29,10 @@ public class Puerta {
 	@JoinColumn (name="idzona2", nullable=false, referencedColumnName="id")
 	private Zona zona2;
 	
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getNombre() {
