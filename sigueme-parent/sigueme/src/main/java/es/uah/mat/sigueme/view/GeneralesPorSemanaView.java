@@ -1,18 +1,12 @@
 package es.uah.mat.sigueme.view;
 
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.*;
 
-import org.apache.commons.lang.math.RandomUtils;
-import org.primefaces.component.chart.series.ChartSeries;
-import org.primefaces.model.chart.CartesianChartModel;
-import org.primefaces.model.chart.ChartModel;
-import org.primefaces.model.chart.PieChartModel;
+import org.apache.commons.lang.math.*;
+import org.primefaces.model.chart.*;
 
 @ManagedBean
 @ViewScoped

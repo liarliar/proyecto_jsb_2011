@@ -197,7 +197,7 @@
 			<dependency>
 				<groupId>org.primefaces</groupId>
 				<artifactId>primefaces</artifactId>
-				<version>2.2.1</version>
+				<version>3.0</version>
 			</dependency>
 			<!-- ========================== Reports technologies ========================== -->
 			<dependency>
@@ -327,10 +327,10 @@
 			<url>http://download.java.net/maven/2</url>
 		</repository>
 		<repository>
-			<id>prime-repo</id>
-			<name>Prime Technology Maven Repository</name>
-			<url>http://repository.prime.com.tr/</url>
-			<layout>default</layout>
+		    <id>prime-repo</id>
+		    <name>PrimeFaces Maven Repository</name>
+		    <url>http://repository.primefaces.org</url>
+		    <layout>default</layout>
 		</repository>		
 		<!-- Para usar los milestones de Spring -->		
 		<!-- Para navegar por el repo usar: https://s3browse.springsource.com/browse/maven.springframework.org/milestone/org/springframework -->
@@ -339,5 +339,6 @@
 			<name>Spring Portfolio Milestone Repository</name>
 			<url>http://maven.springframework.org/milestone</url>
 		</repository>
+		
 	</repositories>
 </project>

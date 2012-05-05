@@ -4,7 +4,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.prime.com.tr/ui">
+	xmlns:p="http://primefaces.org/ui">
 <ui:composition template="/WEB-INF/templates/layout.xhtml">
 	<ui:define name="content">
 		<h:form id="generales">
@@ -13,6 +13,7 @@
 					<h:panelGroup layout="block" style="text-align:center;">Diario</h:panelGroup>
 					<h:panelGroup layout="block">
 						<p:calendar mode="popup" value="#{generalesPorDiaView.fecha}">
+						 	<p:ajax event="dateSelect" listener="#{generalesPorDiaView.cambioFecha}" update="graficoDia"/> 
 						</p:calendar>
 						<h:selectOneMenu value="#{generalesPorDiaView.tipoGrafico}">
 							<f:selectItems value="#{generalesPorDiaView.tiposGrafico}"
@@ -22,11 +23,11 @@
 						</h:selectOneMenu>
 					</h:panelGroup>
 					<h:panelGroup layout="block" id="graficoDia">
-						<p:pieChart model="#{generalesPorDiaView.chartModel}"
-							rendered="#{generalesPorDiaView.tipoGrafico == 'PORCIONES'}" />
-						<p:barChart model="#{generalesPorDiaView.chartModel}"
+						<p:pieChart value="#{generalesPorDiaView.chartModel}"
+							rendered="#{generalesPorDiaView.tipoGrafico == 'PORCIONES'}" legendPosition="w"/>
+						<p:barChart value="#{generalesPorDiaView.chartModel}"
 							rendered="#{generalesPorDiaView.tipoGrafico == 'BARRAS'}" />
-						<p:lineChart model="#{generalesPorDiaView.chartModel}"
+						<p:lineChart value="#{generalesPorDiaView.chartModel}"
 							rendered="#{generalesPorDiaView.tipoGrafico == 'LINEAS'}" />
 					</h:panelGroup>
 				</h:panelGroup>
@@ -42,11 +43,11 @@
 						</h:selectOneMenu>
 					</h:panelGroup>
 					<h:panelGroup layout="block" id="graficoSemana">
-						<p:pieChart model="#{generalesPorSemanaView.chartModel}"
+						<p:pieChart value="#{generalesPorSemanaView.chartModel}"
 							rendered="#{generalesPorSemanaView.tipoGrafico == 'PORCIONES'}" />
-						<p:barChart model="#{generalesPorSemanaView.chartModel}"
+						<p:barChart value="#{generalesPorSemanaView.chartModel}"
 							rendered="#{generalesPorSemanaView.tipoGrafico == 'BARRAS'}" />
-						<p:lineChart model="#{generalesPorSemanaView.chartModel}"
+						<p:lineChart value="#{generalesPorSemanaView.chartModel}"
 							rendered="#{generalesPorSemanaView.tipoGrafico == 'LINEAS'}" />
 					</h:panelGroup>
 
@@ -80,11 +81,11 @@
 						</h:selectOneMenu>
 					</h:panelGroup>
 					<h:panelGroup layout="block" id="graficoMensual">
-						<p:pieChart model="#{generalesPorMesView.chartModel}"
+						<p:pieChart value="#{generalesPorMesView.chartModel}"
 							rendered="#{generalesPorMesView.tipoGrafico == 'PORCIONES'}" />
-						<p:barChart model="#{generalesPorMesView.chartModel}"
+						<p:barChart value="#{generalesPorMesView.chartModel}"
 							rendered="#{generalesPorMesView.tipoGrafico == 'BARRAS'}" />
-						<p:lineChart model="#{generalesPorMesView.chartModel}"
+						<p:lineChart value="#{generalesPorMesView.chartModel}"
 							rendered="#{generalesPorMesView.tipoGrafico == 'LINEAS'}" />
 					</h:panelGroup>
 				</h:panelGroup>
@@ -100,11 +101,11 @@
 						</h:selectOneMenu>
 					</h:panelGroup>
 					<h:panelGroup layout="block" id="graficoAnual">
-						<p:pieChart model="#{generalesPorAnioView.chartModel}"
+						<p:pieChart value="#{generalesPorAnioView.chartModel}"
 							rendered="#{generalesPorAnioView.tipoGrafico == 'PORCIONES'}" />
-						<p:barChart model="#{generalesPorAnioView.chartModel}"
+						<p:barChart value="#{generalesPorAnioView.chartModel}"
 							rendered="#{generalesPorAnioView.tipoGrafico == 'BARRAS'}" />
-						<p:lineChart model="#{generalesPorAnioView.chartModel}"
+						<p:lineChart value="#{generalesPorAnioView.chartModel}"
 							rendered="#{generalesPorAnioView.tipoGrafico == 'LINEAS'}" />
 					</h:panelGroup>
 				</h:panelGroup>

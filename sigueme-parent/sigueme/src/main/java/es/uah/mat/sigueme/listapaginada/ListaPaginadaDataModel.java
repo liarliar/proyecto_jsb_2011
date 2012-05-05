@@ -18,15 +18,16 @@ public class ListaPaginadaDataModel<T> extends LazyDataModel<T> {
 		this.lista = lista;
 	}
 
+
 	@Override
 	public List<T> load(int first, int pageSize, String sortField,
-			boolean sortOrder, Map<String, String> filters) {
+			SortOrder sortOrder, Map<String, String> filters) {
 		if (lista instanceof ListaPaginada) {
 			ListaPaginada<T> listaPaginada = (ListaPaginada<T>) lista;
 			
 			listaPaginada.setPageSize(pageSize);
 		}
-		return lista;
+		return lista;		
 	}
 
 }

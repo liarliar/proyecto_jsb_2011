@@ -34,11 +34,10 @@ public class GeneradorRuta  {
 		
 		EstanciaEnZona estancia = mapa.getProximaEstancia(Zona.UNA);
 		IntervaloEstancia intervalor = estancia.getIntervalo();
-		recorrido.addMensaje(persona.getTarjeta(), estancia.getPuerta(), fechaEscaneoTarjeta);
 		
 		do  {
-			fechaEscaneoTarjeta = calcularFechaEscaneo(fechaEscaneoTarjeta, intervalor);
 			recorrido.addMensaje(persona.getTarjeta(), estancia.getPuerta(), fechaEscaneoTarjeta);
+			fechaEscaneoTarjeta = calcularFechaEscaneo(fechaEscaneoTarjeta, intervalor);
 			intervalor = estancia.getIntervalo();
 		} while ((estancia = mapa.getProximaEstancia(estancia.getZona())).getZona() != Zona.UNA);
 		
