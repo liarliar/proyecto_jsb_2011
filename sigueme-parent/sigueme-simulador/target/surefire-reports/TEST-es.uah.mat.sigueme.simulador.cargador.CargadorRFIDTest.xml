@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.094" errors="0" skipped="0" tests="3" name="es.uah.mat.sigueme.simulador.cargador.CargadorRFIDTest">
+<testsuite failures="0" time="0.125" errors="0" skipped="0" tests="3" name="es.uah.mat.sigueme.simulador.cargador.CargadorRFIDTest">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Archivos de programa\Java\jdk1.6.0_26\jre\bin"/>
@@ -19,7 +19,7 @@
     <property name="basedir" value="C:\proyecto_jsb_2011\proyecto_jsb_2011\sigueme-parent\sigueme-simulador"/>
     <property name="java.endorsed.dirs" value="C:\Archivos de programa\Java\jdk1.6.0_26\jre\lib\endorsed"/>
     <property name="os.arch" value="x86"/>
-    <property name="surefire.real.class.path" value="C:\proyecto_jsb_2011\proyecto_jsb_2011\sigueme-parent\sigueme-simulador\target\surefire\surefirebooter3288178221340802026.jar"/>
+    <property name="surefire.real.class.path" value="C:\proyecto_jsb_2011\proyecto_jsb_2011\sigueme-parent\sigueme-simulador\target\surefire\surefirebooter139834863654624194.jar"/>
     <property name="java.io.tmpdir" value="C:\DOCUME~1\usuario\CONFIG~1\Temp\"/>
     <property name="line.separator" value="
 "/>
@@ -43,7 +43,7 @@
     <property name="java.vm.specification.version" value="1.0"/>
     <property name="sun.arch.data.model" value="32"/>
     <property name="java.home" value="C:\Archivos de programa\Java\jdk1.6.0_26\jre"/>
-    <property name="sun.java.command" value="C:\proyecto_jsb_2011\proyecto_jsb_2011\sigueme-parent\sigueme-simulador\target\surefire\surefirebooter3288178221340802026.jar C:\proyecto_jsb_2011\proyecto_jsb_2011\sigueme-parent\sigueme-simulador\target\surefire\surefire8263203374671116081tmp C:\proyecto_jsb_2011\proyecto_jsb_2011\sigueme-parent\sigueme-simulador\target\surefire\surefire2957800339635148146tmp"/>
+    <property name="sun.java.command" value="C:\proyecto_jsb_2011\proyecto_jsb_2011\sigueme-parent\sigueme-simulador\target\surefire\surefirebooter139834863654624194.jar C:\proyecto_jsb_2011\proyecto_jsb_2011\sigueme-parent\sigueme-simulador\target\surefire\surefire1830918311925579796tmp C:\proyecto_jsb_2011\proyecto_jsb_2011\sigueme-parent\sigueme-simulador\target\surefire\surefire1763417732657688177tmp"/>
     <property name="java.specification.vendor" value="Sun Microsystems Inc."/>
     <property name="user.language" value="es"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -60,7 +60,7 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="pentium_pro+mmx pentium_pro pentium+mmx pentium i486 i386 i86"/>
   </properties>
-  <testcase time="0.015" classname="es.uah.mat.sigueme.simulador.cargador.CargadorRFIDTest" name="deberiaObtenerElFicheroConLasDireccionesDeLasTarjetasASimular"/>
-  <testcase time="0.016" classname="es.uah.mat.sigueme.simulador.cargador.CargadorRFIDTest" name="deberiaDevolverTarjetasRFIDAPartirDeLasDireccionesDelFichero"/>
+  <testcase time="0.047" classname="es.uah.mat.sigueme.simulador.cargador.CargadorRFIDTest" name="deberiaObtenerElFicheroConLasDireccionesDeLasTarjetasASimular"/>
+  <testcase time="0" classname="es.uah.mat.sigueme.simulador.cargador.CargadorRFIDTest" name="deberiaDevolverTarjetasRFIDAPartirDeLasDireccionesDelFichero"/>
   <testcase time="0" classname="es.uah.mat.sigueme.simulador.cargador.CargadorRFIDTest" name="deberiaDevolverLaListaDePuertas"/>
 </testsuite>

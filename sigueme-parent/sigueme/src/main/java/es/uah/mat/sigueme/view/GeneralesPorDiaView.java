@@ -7,8 +7,10 @@ import javax.annotation.*;
 import javax.faces.bean.*;
 
 import org.apache.commons.lang.math.*;
+import org.jfree.util.*;
 import org.primefaces.event.*;
 import org.primefaces.model.chart.*;
+import org.slf4j.*;
 
 import es.uah.mat.sigueme.estadistica.*;
 import es.uah.mat.sigueme.persistence.*;
@@ -27,6 +29,7 @@ public class GeneralesPorDiaView implements Serializable {
 	private TipoGrafico tipoGrafico;
 	private List<TipoGrafico> tiposGrafico;	
 	private ChartModel chartModel;
+	private Logger log = LoggerFactory.getLogger(GeneralesPorDiaView.class);
 	
 	public GeneralesPorDiaView () {
 		fecha = new Date();
@@ -60,17 +63,18 @@ public class GeneralesPorDiaView implements Serializable {
 			chartModel = pieModel;
 			break;
 		default:		
-			CartesianChartModel cartesinaModel = new CartesianChartModel();
+			CartesianChartModel cartesianModel = new CartesianChartModel();
+			List<ZonaVisitantePorHora> visitantes = estadisticaPorDiaRepository.getVisitantesPorHoraEnCadaSala(fecha);
 			
-			for (int j = 1; j < 6; j++) {
-				ChartSeries serie = new ChartSeries("Sala " + j);
+			for (ZonaVisitantePorHora zonaVisitantePorHora : visitantes) {
+				ChartSeries serie = new ChartSeries(zonaVisitantePorHora.getZona());
 				
-				for (int i = 8; i < 19; i++) {
-					serie.set(i + "-" + (i+1), RandomUtils.nextInt(1000));
+				for (HoraVisitante horaVisitante : zonaVisitantePorHora.getHoraVisitante()) {
+					serie.set((tipoGrafico == TipoGrafico.LINEAS) ? horaVisitante.getHora() : String.valueOf(horaVisitante.getHora()), horaVisitante.getVisitantes());
 				}
-				cartesinaModel.addSeries(serie);				
+				cartesianModel.addSeries(serie);				
 			}
-			 chartModel = cartesinaModel;
+			 chartModel = cartesianModel;
 			break;
 		}
 	}

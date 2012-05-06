@@ -7,4 +7,5 @@ import es.uah.mat.sigueme.estadistica.*;
 public interface EstadisticaPorDiaRepository {
 
 	List<ZonaVisitante> getVisitantesPorSala(Date fecha);
+	List<ZonaVisitantePorHora> getVisitantesPorHoraEnCadaSala(Date fecha);
 }

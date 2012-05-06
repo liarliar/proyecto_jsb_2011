@@ -3,31 +3,43 @@ package es.uah.mat.sigueme.view;
 import java.io.*;
 import java.util.*;
 
+import javax.annotation.*;
 import javax.faces.bean.*;
 
 import org.apache.commons.lang.math.*;
 import org.primefaces.model.chart.*;
 
+import es.uah.mat.sigueme.estadistica.*;
+import es.uah.mat.sigueme.persistence.*;
+
 @ManagedBean
 @ViewScoped
 public class GeneralesPorMesView implements Serializable {
 	
+	@ManagedProperty("#{estadisticaPorMesRepository}")
+	EstadisticaPorMesRepository estadisticaPorMesRepository;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6680945021215084566L;
-	private Date fecha;
 	private TipoGrafico tipoGrafico;
 	private List<TipoGrafico> tiposGrafico;	
 	private ChartModel chartModel;
+	private Mes mes;
+	private Integer anio;
 	
 	public GeneralesPorMesView () {
-		fecha = new Date();
+		Calendar hoy = Calendar.getInstance();
+		mes = Mes.values()[hoy.get(Calendar.MONTH)];
+		anio = hoy.get(Calendar.YEAR);
 		tipoGrafico = TipoGrafico.PORCIONES;
 		tiposGrafico = Arrays.asList(TipoGrafico.values());
-		generarChartModel();
 	}
 
+	@PostConstruct
+	public void init() {
+		generarChartModel();
+	}
 
 	public void cambioTipoGrafico () {						
 		generarChartModel();		
@@ -37,38 +49,30 @@ public class GeneralesPorMesView implements Serializable {
 		switch (tipoGrafico) {
 		case PORCIONES:
 			PieChartModel pieModel = new PieChartModel();
-			for (int j = 1; j < 6; j++) {
-				pieModel.set("Sala " + j, RandomUtils.nextInt(1000));
+			List<ZonaVisitante> zonas = estadisticaPorMesRepository.getVisitantesPorZona(mes, anio);
+			for (ZonaVisitante zonaVisitante : zonas) {
+				pieModel.set(zonaVisitante.getZona(), zonaVisitante.getVisitantes());
+				
 			}
-			
 			chartModel = pieModel;
 			break;
 		default:		
-			CartesianChartModel cartesinaModel = new CartesianChartModel();
+			CartesianChartModel cartesianModel = new CartesianChartModel();
+			List<ZonaVisitantePorDiaMes> visitantes = estadisticaPorMesRepository.getVisitantesPorDiaMesEnCadaSala(mes, anio);
 			
-			for (int j = 1; j < 6; j++) {
-				ChartSeries serie = new ChartSeries("Sala " + j);
-				Calendar calendar = Calendar.getInstance();
-				int lastDate = calendar.getActualMaximum(Calendar.DATE);
-				calendar.set(Calendar.DATE, lastDate);
-			
-				for (int i = 1; i <= calendar.get(Calendar.DAY_OF_MONTH); i++) {
-					serie.set("" + i, RandomUtils.nextInt(1000));					
+			for (ZonaVisitantePorDiaMes zonaVisitantePorDiaMes : visitantes) {
+				ChartSeries serie = new ChartSeries(zonaVisitantePorDiaMes.getZona());
+				
+				for (MesVisitante mesVisitante : zonaVisitantePorDiaMes.getVisitantesMes()) {
+					serie.set((tipoGrafico == TipoGrafico.LINEAS) ? mesVisitante.getDiaMes() : String.valueOf(mesVisitante.getDiaMes()), mesVisitante.getVisitantes());
 				}
-				cartesinaModel.addSeries(serie);				
+				cartesianModel.addSeries(serie);				
 			}
-			 chartModel = cartesinaModel;
+			 chartModel = cartesianModel;
 			break;
 		}
 	}
 	
-	public Date getFecha() {
-		return fecha;
-	}
-
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
 
 	public TipoGrafico getTipoGrafico() {
 		return tipoGrafico;
@@ -85,6 +89,32 @@ public class GeneralesPorMesView implements Serializable {
 	public ChartModel getChartModel() {
 		return chartModel;
 	}
+
+
+	public void setEstadisticaPorMesRepository(
+			EstadisticaPorMesRepository estadisticaPorMesRepository) {
+		this.estadisticaPorMesRepository = estadisticaPorMesRepository;
+	}
+
+	public Mes getMes() {
+		return mes;
+	}
+
+	public void setMes(Mes mes) {
+		this.mes = mes;
+	}
+
+	public Integer getAnio() {
+		return anio;
+	}
+
+	public void setAnio(Integer anio) {
+		this.anio = anio;
+	}
 	
+	
+	public List<Mes> getMeses() {
+		return Arrays.asList(Mes.values());
+	}
 	
 }
