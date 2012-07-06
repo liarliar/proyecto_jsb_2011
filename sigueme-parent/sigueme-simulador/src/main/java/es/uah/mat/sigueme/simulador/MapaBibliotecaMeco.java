@@ -15,11 +15,11 @@ public class MapaBibliotecaMeco implements MapaBiblioteca {
 		estanciasEnZona[Zona.UNA.ordinal()][Zona.CUATRO.ordinal()] = new EstanciaEnZona(Zona.CUATRO, puertas.get(0), new Probabilidad(101, 102));
 		estanciasEnZona[Zona.UNA.ordinal()][Zona.CINCO.ordinal()] = new EstanciaEnZona(Zona.CINCO, puertas.get(0),  new Probabilidad(101, 102));
 
-		estanciasEnZona[Zona.DOS.ordinal()][Zona.UNA.ordinal()] = new EstanciaEnZona(Zona.UNA, puertas.get(0), new Probabilidad(0, 25));
+		estanciasEnZona[Zona.DOS.ordinal()][Zona.UNA.ordinal()] = new EstanciaEnZona(Zona.UNA, puertas.get(0), new Probabilidad(0, 45));
 		estanciasEnZona[Zona.DOS.ordinal()][Zona.DOS.ordinal()] = new EstanciaEnZona(Zona.DOS, puertas.get(0), new Probabilidad(101, 102));
-		estanciasEnZona[Zona.DOS.ordinal()][Zona.TRES.ordinal()] = new EstanciaEnZona(Zona.TRES, puertas.get(1), new IntervaloEstancia(5, 15), new Probabilidad(25, 50));
-		estanciasEnZona[Zona.DOS.ordinal()][Zona.CUATRO.ordinal()] = new EstanciaEnZona(Zona.CUATRO, puertas.get(2), new IntervaloEstancia(5, 15), new Probabilidad(50, 75));
-		estanciasEnZona[Zona.DOS.ordinal()][Zona.CINCO.ordinal()] = new EstanciaEnZona(Zona.CINCO, puertas.get(3), new IntervaloEstancia(5, 15), new Probabilidad(75, 100));
+		estanciasEnZona[Zona.DOS.ordinal()][Zona.TRES.ordinal()] = new EstanciaEnZona(Zona.TRES, puertas.get(1), new IntervaloEstancia(5, 15), new Probabilidad(45, 60));
+		estanciasEnZona[Zona.DOS.ordinal()][Zona.CUATRO.ordinal()] = new EstanciaEnZona(Zona.CUATRO, puertas.get(2), new IntervaloEstancia(5, 15), new Probabilidad(60, 90));
+		estanciasEnZona[Zona.DOS.ordinal()][Zona.CINCO.ordinal()] = new EstanciaEnZona(Zona.CINCO, puertas.get(3), new IntervaloEstancia(5, 15), new Probabilidad(90, 100));
 
 		estanciasEnZona[Zona.TRES.ordinal()][Zona.UNA.ordinal()] = new EstanciaEnZona(Zona.UNA, puertas.get(0), new Probabilidad(101, 102));
 		estanciasEnZona[Zona.TRES.ordinal()][Zona.DOS.ordinal()] = new EstanciaEnZona(Zona.DOS, puertas.get(1), new IntervaloEstancia(5, 15), new Probabilidad(0, 100));

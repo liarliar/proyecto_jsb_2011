@@ -32,8 +32,8 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
-	<bean id="commonsLiquibase" class="liquibase.integration.spring.SpringLiquibase">
-		<property name="dataSource" ref="siguemeDataBase" />
-		<property name="changeLog" value="classpath:/liquiBase/changeLogs.xml" />
-	</bean>	
+<!-- 	<bean id="commonsLiquibase" class="liquibase.integration.spring.SpringLiquibase"> -->
+<!-- 		<property name="dataSource" ref="siguemeDataBase" /> -->
+<!-- 		<property name="changeLog" value="classpath:/liquiBase/changeLogs.xml" /> -->
+<!-- 	</bean>	 -->
 </beans> 

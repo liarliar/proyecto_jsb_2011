@@ -8,7 +8,7 @@
 <ui:composition template="/WEB-INF/templates/layout.xhtml">
 	<ui:define name="content">
 		<h:form id="estadisticas">
-			<p:panel header="#{msg['estadisticas.estadisticasTemporales']}"
+			<p:panel header="Estadisticas por visitas"
 				toggleable="true" toggleSpeed="100">
 				<h:panelGroup style="margin-right:5px;">
 					<h:outputText value="#{msg['estadisticas.fechaDesde']}" />: <p:calendar
@@ -18,16 +18,6 @@
 					<h:outputText value="#{msg['estadisticas.fechaHasta']}" />: <p:calendar
 						value="#{porVisitasView.hasta}" showOn="button" />
 				</h:panelGroup>
-				<h:panelGroup  style="margin-right:5px;">
-					<h:outputText value="#{msg['estadisticas.numeroVisitas']}" />:
-						<h:selectOneMenu id="numeroVisitas"
-						value="#{porVisitasView.numeroVisitas}">
-						<f:selectItem itemLabel="#{msg['estadisticas.sinvalor']}"
-							itemValue="" />
-						<f:selectItems value="#{porVisitasView.tiposNumeroVisitas}"
-							var="tipo" itemLabel="#{msg[tipo.label]}" itemValue="#{tipo}" />
-					</h:selectOneMenu>
-				</h:panelGroup>
 				<div style="text-align: right;">
 					<p:commandButton value="#{msg['boton.verResultados']}"
 						action="#{porVisitasView.verResultados}" update="tabs" />
@@ -35,35 +25,58 @@
 			</p:panel>
 			<p:spacer />
 			<h:panelGroup layout="block" id="tabs">
-				<p:tabView rendered="#{porVisitasView.verTabsResultados}">
-					<p:tab title="#{msg['estadisticas.enTabla']}">
-						<p:dataTable value="#{porVisitasView.resultados}" var="resultado">
+				<p:dataTable value="#{porVisitasView.rutas}" var="ruta" paginator="true" rows="10" pageLinks="5"  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+						<p:ajax event="rowToggle" listener="#{porVisitasView.onRowToggle}"/>
+						<p:column>
+							<p:rowToggler/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Direccion Larga" />
+							</f:facet>
+							<h:outputText value="#{ruta.direccionLarga}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Fecha inicio" />
+							</f:facet>
+							<h:outputText value="#{ruta.inicio}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Fecha fin" />
+							</f:facet>
+							<h:outputText value="#{ruta.fin}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Duración (hh:mm:ss)" />
+							</f:facet>
+							<h:outputText value="#{ruta.duracion}" converter="milisecondsConverter"/>
+						</p:column>
+						<p:rowExpansion>
+							<p:dataTable value="#{porVisitasView.ruta}" var="recorridoSala">
 							<p:column>
 								<f:facet name="header">
-									<h:outputText value="#{msg['estadisticas.sala']}" />
+									<h:outputText value="Fecha entrada" />
 								</f:facet>
-								<h:outputText value="#{resultado.sala}" />
+								<h:outputText value="#{recorridoSala.fechaEntrada}" />
 							</p:column>
 							<p:column>
 								<f:facet name="header">
-									<h:outputText value="#{msg['estadisticas.tiempo']}" />
+									<h:outputText value="Fecha salida" />
 								</f:facet>
-								<h:outputText value="#{resultado.valor}" />
+								<h:outputText value="#{recorridoSala.fechaSalida}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Zona" />
+								</f:facet>
+								<h:outputText value="#{recorridoSala.zona.nombre}" />
 							</p:column>
 						</p:dataTable>
-					</p:tab>
-					<p:tab title="#{msg['estadisticas.enMapa']}">
-						<h:panelGroup layout="block" id="mapa">
-						</h:panelGroup>
-					</p:tab>
-					<p:tab title="#{msg['estadisticas.enGrafica']}">
-						<h:panelGroup layout="block">
-							<p:pieChart value="#{porVisitasView.resultados}" var="resultado"
-								categoryField="#{resultado.sala}" dataField="#{resultado.valor}"
-								width="100%" />
-						</h:panelGroup>
-					</p:tab>
-				</p:tabView>
+					</p:rowExpansion>
+				</p:dataTable>
 			</h:panelGroup>
 		</h:form>
 	</ui:define>

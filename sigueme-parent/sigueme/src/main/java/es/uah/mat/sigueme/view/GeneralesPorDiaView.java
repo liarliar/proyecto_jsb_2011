@@ -4,7 +4,10 @@ import java.io.*;
 import java.util.*;
 
 import javax.annotation.*;
+import javax.faces.application.*;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.*;
+import javax.faces.context.*;
 
 import org.apache.commons.lang.math.*;
 import org.jfree.util.*;
@@ -30,11 +33,19 @@ public class GeneralesPorDiaView implements Serializable {
 	private List<TipoGrafico> tiposGrafico;	
 	private ChartModel chartModel;
 	private Logger log = LoggerFactory.getLogger(GeneralesPorDiaView.class);
+	private List<Integer> horas;
+	private Integer horaInicio;
+	private Integer horaFin;
+	private boolean renderChart;
 	
 	public GeneralesPorDiaView () {
 		fecha = new Date();
 		tipoGrafico = TipoGrafico.PORCIONES;
 		tiposGrafico = Arrays.asList(TipoGrafico.values());
+		horas = new ArrayList<Integer>();
+		for (int i = 9; i < 24; i++) {
+			horas.add(i);
+		}
 	}
 
 	@PostConstruct
@@ -43,6 +54,10 @@ public class GeneralesPorDiaView implements Serializable {
 	}
 
 	public void cambioTipoGrafico () {						
+		generarChartModel();		
+	}
+	
+	public void cambioHoras () {						
 		generarChartModel();		
 	}
 	
@@ -55,26 +70,42 @@ public class GeneralesPorDiaView implements Serializable {
 		switch (tipoGrafico) {
 		case PORCIONES:
 			PieChartModel pieModel = new PieChartModel();
-			List<ZonaVisitante> zonas = estadisticaPorDiaRepository.getVisitantesPorSala(fecha);
+			List<ZonaVisitante> zonas = estadisticaPorDiaRepository.getVisitantesPorSala(fecha, new Rango(horaInicio, horaFin));
+			if (zonas.isEmpty()) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No existen datos para mostrar.", ""));
+				renderChart = false;
+				pieModel.set("", 0);
+			} else {
+				renderChart = true;
 			for (ZonaVisitante zonaVisitante : zonas) {
 				pieModel.set(zonaVisitante.getZona(), zonaVisitante.getVisitantes());
-				
+			}
 			}
 			chartModel = pieModel;
 			break;
 		default:		
 			CartesianChartModel cartesianModel = new CartesianChartModel();
-			List<ZonaVisitantePorHora> visitantes = estadisticaPorDiaRepository.getVisitantesPorHoraEnCadaSala(fecha);
+			List<ZonaVisitantePorHora> visitantes = estadisticaPorDiaRepository.getVisitantesPorHoraEnCadaSala(fecha, new Rango(horaInicio, horaFin));
 			
-			for (ZonaVisitantePorHora zonaVisitantePorHora : visitantes) {
-				ChartSeries serie = new ChartSeries(zonaVisitantePorHora.getZona());
-				
-				for (HoraVisitante horaVisitante : zonaVisitantePorHora.getHoraVisitante()) {
-					serie.set((tipoGrafico == TipoGrafico.LINEAS) ? horaVisitante.getHora() : String.valueOf(horaVisitante.getHora()), horaVisitante.getVisitantes());
+			if (visitantes.isEmpty()) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No existen datos para mostrar.", ""));
+				ChartSeries serie = new ChartSeries("");
+				serie.set("", 0);
+				cartesianModel.addSeries(serie);
+				renderChart = false;
+			} else {
+				renderChart = true;
+				for (ZonaVisitantePorHora zonaVisitantePorHora : visitantes) {
+					ChartSeries serie = new ChartSeries(zonaVisitantePorHora.getZona());
+					
+					for (HoraVisitante horaVisitante : zonaVisitantePorHora.getHoraVisitante()) {
+						serie.set((tipoGrafico == TipoGrafico.LINEAS) ? horaVisitante.getHora() : String.valueOf(horaVisitante.getHora()), horaVisitante.getVisitantes());
+					}
+					cartesianModel.addSeries(serie);				
 				}
-				cartesianModel.addSeries(serie);				
+				
 			}
-			 chartModel = cartesianModel;
+			chartModel = cartesianModel;
 			break;
 		}
 	}
@@ -107,5 +138,29 @@ public class GeneralesPorDiaView implements Serializable {
 	public void setEstadisticaPorDiaRepository(
 			EstadisticaPorDiaRepository estadisticaPorDiaRepository) {
 		this.estadisticaPorDiaRepository = estadisticaPorDiaRepository;
+	}
+
+	public Integer getHoraInicio() {
+		return horaInicio;
+	}
+
+	public void setHoraInicio(Integer horaInicio) {
+		this.horaInicio = horaInicio;
+	}
+
+	public Integer getHoraFin() {
+		return horaFin;
+	}
+
+	public void setHoraFin(Integer horaFin) {
+		this.horaFin = horaFin;
+	}
+
+	public List<Integer> getHoras() {
+		return horas;
+	}
+
+	public boolean isRenderChart() {
+		return renderChart;
 	}
 }

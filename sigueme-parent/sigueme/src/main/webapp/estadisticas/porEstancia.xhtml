@@ -8,7 +8,7 @@
 <ui:composition template="/WEB-INF/templates/layout.xhtml">
 	<ui:define name="content">
 		<h:form id="estadisticas">
-			<p:panel header="#{msg['estadisticas.estadisticasTemporales']}"
+			<p:panel header="Estadisticas por estancia"
 				toggleable="true" toggleSpeed="100">
 				<h:panelGroup style="margin-right:5px;">
 					<h:outputText value="#{msg['estadisticas.fechaDesde']}" />: <p:calendar
@@ -21,7 +21,7 @@
 				<h:panelGroup style="margin-right:5px;">
 					<h:outputText value="#{msg['estadisticas.tiempoEstancia']}" />:
 						<h:selectOneMenu id="tiempoEstancia"
-						value="#{porEstanciaView.tiempoEstancia}">
+						value="#{porEstanciaView.tiempoEstancia}" required="true">
 						<f:selectItem itemLabel="#{msg['estadisticas.sinvalor']}"
 							itemValue="" />
 						<f:selectItems value="#{porEstanciaView.tiposTiempoEstancia}"
@@ -35,7 +35,7 @@
 			</p:panel>
 			<p:spacer />
 			<h:panelGroup layout="block" id="tabs">
-				<p:tabView rendered="#{porEstanciaView.verTabsResultados}">
+				<p:tabView rendered="#{porEstanciaView.verTabsResultados}" dynamic="true" cache="false">
 					<p:tab title="#{msg['estadisticas.enTabla']}">
 						<p:dataTable value="#{porEstanciaView.resultados}" var="resultado">
 							<p:column>
@@ -46,21 +46,25 @@
 							</p:column>
 							<p:column>
 								<f:facet name="header">
-									<h:outputText value="#{msg['estadisticas.tiempo']}" />
+									<h:outputText value="#{msg['estadisticas.tiempo']} (hh:mm:ss)" />
 								</f:facet>
-								<h:outputText value="#{resultado.valor}" />
+								<h:outputText value="#{resultado.valor * 1000}" converter="milisecondsConverter"/>
 							</p:column>
 						</p:dataTable>
 					</p:tab>
 					<p:tab title="#{msg['estadisticas.enMapa']}">
 						<h:panelGroup layout="block" id="mapa">
+						<ui:repeat var="zona" value="#{porEstanciaView.resultados}">
+							<h:panelGroup layout="block" styleClass="#{porEstanciaView.getCssZona(zona)}">							
+								<h:outputText value="#{zona.valor * 1000}" converter="milisecondsConverter"/>
+							</h:panelGroup>
+						</ui:repeat>
+						<h:graphicImage url="/images/mapa.png"  />
 						</h:panelGroup>
 					</p:tab>
 					<p:tab title="#{msg['estadisticas.enGrafica']}">
 						<h:panelGroup layout="block">
-<!-- 							<p:pieChart value="#{porEstanciaView.resultados}" var="resultado" -->
-<!-- 								categoryField="#{resultado.sala}" dataField="#{resultado.valor}" -->
-<!-- 								width="100%" /> -->
+							<p:pieChart value="#{porEstanciaView.chartModel}" width="100%" showDataLabels="true" legendPosition="w" />
 						</h:panelGroup>
 					</p:tab>
 				</p:tabView>

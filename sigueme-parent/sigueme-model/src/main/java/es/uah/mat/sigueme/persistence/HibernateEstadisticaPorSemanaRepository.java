@@ -31,11 +31,10 @@ public class HibernateEstadisticaPorSemanaRepository extends HibernateDaoSupport
 			public List<ZonaVisitante> doInHibernate(final Session session)
 					throws HibernateException, SQLException {
 				final List<ZonaVisitante> zonasVisitadas = new ArrayList<ZonaVisitante>();
-				final SQLQuery query = session.createSQLQuery("select count(a.\"idRecorrido\") visitantes, " +
-						"d.nombre from recorrido_mensajerfid a, mensajerfid b, " +
-						"puerta c, zona d where a.\"idMensaje\" = b.id and a.tipo = 'E' and " +
-						"b.idpuerta = c.id and c.idzona2 = d.id and cast(b.fecha as date) >= :inicio and cast(b.fecha as date) <= :fin " +
-						"group by d.nombre;");
+				final SQLQuery query = session.createSQLQuery("select count(*) visitantes,nombre from (select recorridoid,salaid from recorrido_sala " +
+						" where cast(fechaentrada as date) >= :inicio and cast(fechaentrada as date) <= :fin " + 
+						" group by recorridoid,salaid) as visita,zona where visita.salaid=id " +
+						" group by nombre");
 				query.setDate("inicio", getInicioSemana(fecha));
 				query.setDate("fin", getFinSemana(fecha));
 				List<Object[]> result = query.list();
@@ -59,13 +58,11 @@ public class HibernateEstadisticaPorSemanaRepository extends HibernateDaoSupport
 			public List<ZonaVisitantePorDiaSemana> doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				final List<ZonaVisitantePorDiaSemana> visitantesPorDiaSemana = new ArrayList<ZonaVisitantePorDiaSemana>();
-				final SQLQuery query = session.createSQLQuery("select count(a.\"idRecorrido\") visitantes, " +
-						"extract(dow from b.fecha) diaSemana, d.nombre " +
-						"from recorrido_mensajerfid a, mensajerfid b, puerta c, " +
-						"zona d where a.\"idMensaje\" = b.id and a.tipo = 'E' and  " +
-						"b.idpuerta = c.id and c.idzona2 = d.id " +
-						"and cast(b.fecha as date) >= :inicio and cast(b.fecha as date) <= :fin group " +
-						"by d.nombre, diaSemana order by d.nombre, diaSemana");
+				final SQLQuery query = session.createSQLQuery("select count(*) visitantes,diaSemana,nombre from " +
+						"(select recorridoid,salaid,extract(dow from fechaentrada) diaSemana from recorrido_sala " +
+						" where cast(fechaentrada as date) >= :inicio and cast(fechaentrada as date) <= :fin " +
+						" group by recorridoid,salaid,extract(dow from fechaentrada)) as visita,zona where visita.salaid=id " +
+						" group by nombre,diaSemana");
 				
 				query.setDate("inicio", getInicioSemana(fecha));
 				query.setDate("fin", getFinSemana(fecha));

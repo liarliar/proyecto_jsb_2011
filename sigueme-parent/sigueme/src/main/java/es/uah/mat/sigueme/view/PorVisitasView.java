@@ -1,63 +1,51 @@
 package es.uah.mat.sigueme.view;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.application.*;
+import javax.faces.bean.*;
+import javax.faces.context.*;
 
-import org.apache.commons.lang.math.RandomUtils;
+import org.primefaces.event.*;
 
-import es.uah.mat.sigueme.bean.Resultado;
+import es.uah.mat.sigueme.estadistica.*;
+import es.uah.mat.sigueme.persistence.*;
 
 @ManagedBean
 @ViewScoped
 public class PorVisitasView implements Serializable {
+
+	@ManagedProperty("#{estadisticaPorVisitas}")
+	private EstadisticaPorVisitas estadisticaPorVisitas;
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6010282186357781206L;
 	private boolean verTabsResultados;
-	private TipoNumeroVisitas numeroVisitas;
-	private List<TipoNumeroVisitas> tiposNumeroVisitas;
-	private List<Resultado> resultados;
 	private Date desde;
 	private Date hasta;
+	private List<Ruta> rutas;
+	private List<RecorridoSala> ruta;
 
 	public PorVisitasView () {
 		verTabsResultados = false;
-		tiposNumeroVisitas = Arrays.asList(TipoNumeroVisitas.values());
 	}
 	
 	public void verResultados() {
-		resultados = new ArrayList<Resultado>();
 		verTabsResultados = true;
-		int indexAleatorio = RandomUtils.nextInt(6);
-		
-		for (int i = 1; i < indexAleatorio; i++) {
-			resultados.add(new Resultado("Sala " + i, RandomUtils.nextLong()));
-		}
-		
+		rutas = estadisticaPorVisitas.getRutas(desde, hasta);
 	}
+	
+    public void onRowToggle(ToggleEvent event) {
+    	Ruta rutaSelected = (Ruta) event.getData();
+    	ruta = estadisticaPorVisitas.getRecorrido(rutaSelected.getId());
+    }
 
-	public TipoNumeroVisitas getNumeroVisitas() {
-		return numeroVisitas;
-	}
 
-	public void setNumeroVisitas(TipoNumeroVisitas numeroVisitas) {
-		this.numeroVisitas = numeroVisitas;
-	}
-
-	public List<TipoNumeroVisitas> getTiposNumeroVisitas() {
-		return tiposNumeroVisitas;
-	}
-
-	public List<Resultado> getResultados() {
-		return resultados;
+	public List<Ruta> getRutas() {
+		return rutas;
 	}
 
 	public boolean isVerTabsResultados() {
@@ -78,6 +66,14 @@ public class PorVisitasView implements Serializable {
 
 	public void setHasta(Date hasta) {
 		this.hasta = hasta;
+	}
+
+	public void setEstadisticaPorVisitas(EstadisticaPorVisitas estadisticaPorVisitas) {
+		this.estadisticaPorVisitas = estadisticaPorVisitas;
+	}
+
+	public List<RecorridoSala> getRuta() {
+		return ruta;
 	}
 
 }

@@ -25,18 +25,20 @@ public class HibernateEstadisticaPorDiaRepository extends HibernateDaoSupport im
 	}
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ZonaVisitante> getVisitantesPorSala(final Date fecha) {
+	public List<ZonaVisitante> getVisitantesPorSala(final Date fecha, final Rango rangoHoras) {
 		return getHibernateTemplate().executeFind(new HibernateCallback<List<ZonaVisitante>>() {
 
 			@Override
 			public List<ZonaVisitante> doInHibernate(final Session session)
 					throws HibernateException, SQLException {
 				final List<ZonaVisitante> zonasVisitadas = new ArrayList<ZonaVisitante>();
-				final SQLQuery query = session.createSQLQuery("select count(a.\"idRecorrido\") visitantes, " +
-						"d.nombre from recorrido_mensajerfid a, mensajerfid b, " +
-						"puerta c, zona d where a.\"idMensaje\" = b.id and a.tipo = 'E' and " +
-						"b.idpuerta = c.id and c.idzona2 = d.id and cast(b.fecha as date) = :fecha " +
-						"group by d.nombre;");
+				final SQLQuery query = session.createSQLQuery("select count(*) visitantes,nombre from (" +
+						"select recorridoid,salaid from recorrido_sala " +
+						"where cast(fechaentrada as date) = :fecha " + getSqlRangoFechas(rangoHoras) +
+								" group by recorridoid,salaid) as visita,zona " +
+						" where visita.salaid=id group by nombre");
+				
+				setRangosFecha(rangoHoras, query);
 				query.setDate("fecha", fecha);
 				List<Object[]> result = query.list();
 				
@@ -49,20 +51,19 @@ public class HibernateEstadisticaPorDiaRepository extends HibernateDaoSupport im
 	}
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<ZonaVisitantePorHora> getVisitantesPorHoraEnCadaSala(final Date fecha) {
+	public List<ZonaVisitantePorHora> getVisitantesPorHoraEnCadaSala(final Date fecha, final Rango rangoHoras) {
 		return getHibernateTemplate().executeFind(new HibernateCallback<List<ZonaVisitantePorHora>>() {
 
 			@Override
 			public List<ZonaVisitantePorHora> doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				final List<ZonaVisitantePorHora> visitantesPorHora = new ArrayList<ZonaVisitantePorHora>();
-				final SQLQuery query = session.createSQLQuery("select count(a.\"idRecorrido\") visitantes, " +
-						"extract(hour from b.fecha) hora, d.nombre " +
-						"from recorrido_mensajerfid a, mensajerfid b, puerta c, " +
-						"zona d where a.\"idMensaje\" = b.id and a.tipo = 'E' and  " +
-						"b.idpuerta = c.id and c.idzona2 = d.id " +
-						"and cast(b.fecha as date) = :fecha group " +
-						"by d.nombre, hora order by d.nombre, hora");
+				final SQLQuery query = session.createSQLQuery("select count(*) visitantes,hora,nombre from (select recorridoid,salaid,extract(hour from fechaentrada) hora from recorrido_sala" +
+						" where cast(fechaentrada as date) = :fecha "+ getSqlRangoFechas(rangoHoras) +
+						" group by recorridoid,salaid,extract(hour from fechaentrada)) as visita,zona " +
+						"where visita.salaid=id group by nombre,hora order by nombre, hora");
+
+				setRangosFecha(rangoHoras, query);
 				query.setDate("fecha", fecha);
 				final List<Object[]> result = query.list();
 				final Map<String, List<HoraVisitante>> horaVisitante = new HashMap<String, List<HoraVisitante>>();
@@ -79,7 +80,31 @@ public class HibernateEstadisticaPorDiaRepository extends HibernateDaoSupport im
 				}
 				return visitantesPorHora;
 			}
+
+
 		});
+	}
+	private void setRangosFecha(final Rango rangoHoras,
+			final SQLQuery query) {
+		if (rangoHoras.getInicio() != null) {
+			query.setInteger("horaInicio", rangoHoras.getInicio());
+		}
+		if (rangoHoras.getFin() != null) {
+			query.setInteger("horaFin", rangoHoras.getFin());
+		}
+	}
+	
+	private String getSqlRangoFechas(Rango rangoHoras) {
+		final StringBuffer filtro = new StringBuffer();
+		
+		if (rangoHoras.getInicio() != null) {
+			filtro.append(" and extract(hour from fechaentrada) >= :horaInicio");
+		}
+		
+		if (rangoHoras.getFin() != null) {
+			filtro.append(" and extract(hour from fechaentrada) <= :horaFin");
+		}
+		return filtro.toString();
 	}
 
 

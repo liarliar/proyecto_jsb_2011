@@ -8,15 +8,20 @@
 	<h1>Cabecera de la aplicación</h1>
 	<div id="menu">
 		<h:form>
-			<p:menubar autoSubmenuDisplay="true" effectDuration="100" >
-				<p:menuitem value="#{msg['menu.simulador']}" url="/simulador.xhtml"/>
-				<p:menuitem value="#{msg['menu.errores']}" url="/errores.xhtml"/>
-				<p:submenu label="#{msg['menu.estadisticas']}">
-					<p:menuitem value="#{msg['menu.estadisticas.generales']}" url="/estadisticas/generales.xhtml"/>
-					<p:menuitem value="#{msg['menu.estadisticas.porEstancia']}" url="/estadisticas/porEstancia.xhtml"/>
-					<p:menuitem value="#{msg['menu.estadisticas.porVisitas']}" url="/estadisticas/porVisitas.xhtml"/>
-				</p:submenu>
-			</p:menubar>
+			<div class="grupoMenu">
+				<div class="tituloMenu">
+					<h:outputText value="#{msg['menu.simulador']}"/>
+				</div>
+				<h:link value="Generar rutas" outcome="/simulador" />
+			</div>
+			<div class="grupoMenu separadorMenu">
+				<div class="tituloMenu">
+				<h:outputText value="#{msg['menu.estadisticas']}"/>
+				</div>
+				<h:link value="#{msg['menu.estadisticas.generales']}"  outcome="/estadisticas/generales"/>
+				<h:link value="#{msg['menu.estadisticas.porEstancia']}"  outcome="/estadisticas/porEstancia"/>
+				<h:link value="#{msg['menu.estadisticas.porVisitas']}"  outcome="/estadisticas/porVisitas"/>
+			</div>
 		</h:form>
 	</div>
 </ui:composition>

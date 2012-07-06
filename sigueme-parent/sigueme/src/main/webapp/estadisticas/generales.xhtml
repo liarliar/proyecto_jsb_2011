@@ -8,9 +8,9 @@
 <ui:composition template="/WEB-INF/templates/layout.xhtml">
 	<ui:define name="content">
 		<h:form id="generales">
-			<h:panelGrid columns="2" width="100%">
-				<h:panelGroup layout="block">
-					<h:panelGroup layout="block" style="width:100%;">Diario</h:panelGroup>
+			<p:growl id="growl" autoUpdate="true" life="1000" globalOnly="true"/>
+			<p:accordionPanel multiple="true">
+				<p:tab title="Diario">
 					<h:panelGroup layout="block" style="width:100%;">
 						<p:calendar mode="popup" value="#{generalesPorDiaView.fecha}">
 						 	<p:ajax event="dateSelect" listener="#{generalesPorDiaView.cambioFecha}" update="graficoDia"/> 
@@ -21,18 +21,29 @@
 							<p:ajax event="change" update="graficoDia"
 								listener="#{generalesPorDiaView.cambioTipoGrafico}" />
 						</h:selectOneMenu>
+						<h:outputLabel for="horaInicio" value="Hora inicio:"/>
+						<h:selectOneMenu value="#{generalesPorDiaView.horaInicio}" id="horaInicio">
+							<p:ajax event="change" update="graficoDia" listener="#{generalesPorDiaView.cambioHoras}"/>
+							<f:selectItem itemLabel="Ninguna hora" itemValue=""/>
+							<f:selectItems value="#{generalesPorDiaView.horas}"/>
+						</h:selectOneMenu>
+						<h:outputLabel for="horaFin" value="Hora final:"/>
+						<h:selectOneMenu value="#{generalesPorDiaView.horaFin}" id="horaFin">
+							<p:ajax event="change" update="graficoDia" listener="#{generalesPorDiaView.cambioHoras}"/>
+							<f:selectItem itemLabel="Ninguna hora" itemValue=""/>
+							<f:selectItems value="#{generalesPorDiaView.horas}"/>
+						</h:selectOneMenu>
 					</h:panelGroup>
 					<h:panelGroup layout="block" id="graficoDia">
 						<p:pieChart value="#{generalesPorDiaView.chartModel}"
-							rendered="#{generalesPorDiaView.tipoGrafico == 'PORCIONES'}" legendPosition="w"/>
+							rendered="#{generalesPorDiaView.tipoGrafico == 'PORCIONES'}" legendPosition="w" renderer="#{generalesPorDiaView.renderChart}"/>
 						<p:barChart value="#{generalesPorDiaView.chartModel}"
-							rendered="#{generalesPorDiaView.tipoGrafico == 'BARRAS'}" legendPosition="ne"/>
+							rendered="#{generalesPorDiaView.tipoGrafico == 'BARRAS'}" legendPosition="ne" renderer="#{generalesPorDiaView.renderChart}"/>
 						<p:lineChart value="#{generalesPorDiaView.chartModel}"
-							rendered="#{generalesPorDiaView.tipoGrafico == 'LINEAS'}" legendPosition="w"/>
+							rendered="#{generalesPorDiaView.tipoGrafico == 'LINEAS'}" legendPosition="w" renderer="#{generalesPorDiaView.renderChart}"/>
 					</h:panelGroup>
-				</h:panelGroup>
-				<h:panelGroup layout="block">
-					<h:panelGroup layout="block" style="width:100%">Semanal</h:panelGroup>
+				</p:tab>
+				<p:tab title="Semanal">
 					<h:panelGroup layout="block" style="width:100%">
 						<p:calendar mode="popup" showWeek="true" value="#{generalesPorSemanaView.fecha}">
 							<p:ajax event="dateSelect" listener="#{generalesPorSemanaView.cambioFecha}" update="graficoSemana"/> 
@@ -46,16 +57,14 @@
 					</h:panelGroup>
 					<h:panelGroup layout="block" id="graficoSemana">
 						<p:pieChart value="#{generalesPorSemanaView.chartModel}"
-							rendered="#{generalesPorSemanaView.tipoGrafico == 'PORCIONES'}" legendPosition="w"/>
+							rendered="#{generalesPorSemanaView.tipoGrafico == 'PORCIONES'}" legendPosition="w" renderer="#{generalesPorSemanaView.renderChart}"/>
 						<p:barChart value="#{generalesPorSemanaView.chartModel}"
-							rendered="#{generalesPorSemanaView.tipoGrafico == 'BARRAS'}" legendPosition="ne"/>
+							rendered="#{generalesPorSemanaView.tipoGrafico == 'BARRAS'}" legendPosition="ne" renderer="#{generalesPorSemanaView.renderChart}"/>
 						<p:lineChart value="#{generalesPorSemanaView.chartModel}"
-							rendered="#{generalesPorSemanaView.tipoGrafico == 'LINEAS'}" legendPosition="se"/>
+							rendered="#{generalesPorSemanaView.tipoGrafico == 'LINEAS'}" legendPosition="se" renderer="#{generalesPorSemanaView.renderChart}"/>
 					</h:panelGroup>
-
-				</h:panelGroup>
-				<h:panelGroup layout="block">
-					<h:panelGroup layout="block" style="width:100%">Mensual</h:panelGroup>
+				</p:tab>
+				<p:tab title="Mensual">
 					<h:panelGroup layout="block" style="width:100%">
 						<h:selectOneMenu value="#{generalesPorMesView.mes}">
 							<f:selectItems value="#{generalesPorMesView.meses}"></f:selectItems>
@@ -72,18 +81,29 @@
 							<p:ajax event="change" update="graficoMensual"
 								listener="#{generalesPorMesView.cambioTipoGrafico}" />
 						</h:selectOneMenu>
+						<h:outputLabel for="diaInicio" value="Dia inicio:"/>
+						<h:selectOneMenu value="#{generalesPorMesView.diaInicio}" id="diaInicio">
+							<p:ajax event="change" update="graficoMensual" listener="#{generalesPorMesView.cambioDias}"/>
+							<f:selectItem itemLabel="Ningún dia" itemValue=""/>
+							<f:selectItems value="#{generalesPorMesView.dias}"/>
+						</h:selectOneMenu>
+						<h:outputLabel for="diaFin" value="Dia final:"/>
+						<h:selectOneMenu value="#{generalesPorMesView.diaFin}" id="diaFin">
+							<p:ajax event="change" update="graficoMensual" listener="#{generalesPorMesView.cambioDias}"/>
+							<f:selectItem itemLabel="Ningún dia" itemValue=""/>
+							<f:selectItems value="#{generalesPorMesView.dias}"/>
+						</h:selectOneMenu>
 					</h:panelGroup>
 					<h:panelGroup layout="block" id="graficoMensual">
 						<p:pieChart value="#{generalesPorMesView.chartModel}"
-							rendered="#{generalesPorMesView.tipoGrafico == 'PORCIONES'}" legendPosition="w"/>
+							rendered="#{generalesPorMesView.tipoGrafico == 'PORCIONES'}" legendPosition="w" renderer="#{generalesPorMesView.renderChart}"/>
 						<p:barChart value="#{generalesPorMesView.chartModel}"
-							rendered="#{generalesPorMesView.tipoGrafico == 'BARRAS'}" legendPosition="ne"/>
+							rendered="#{generalesPorMesView.tipoGrafico == 'BARRAS'}" legendPosition="ne" renderer="#{generalesPorMesView.renderChart}"/>
 						<p:lineChart value="#{generalesPorMesView.chartModel}"
-							rendered="#{generalesPorMesView.tipoGrafico == 'LINEAS'}" legendPosition="se"/>
+							rendered="#{generalesPorMesView.tipoGrafico == 'LINEAS'}" legendPosition="se" renderer="#{generalesPorMesView.renderChart}"/>
 					</h:panelGroup>
-				</h:panelGroup>
-				<h:panelGroup layout="block">
-					<h:panelGroup layout="block" style="width:100%;">Anual</h:panelGroup>
+				</p:tab>
+				<p:tab title="Anual">
 					<h:panelGroup layout="block" style="width:100%;">
 						<p:spinner value="#{generalesPorAnioView.anio}">
 							<p:ajax event="change" update="graficoAnual"
@@ -98,14 +118,14 @@
 					</h:panelGroup>
 					<h:panelGroup layout="block" id="graficoAnual">
 						<p:pieChart value="#{generalesPorAnioView.chartModel}"
-							rendered="#{generalesPorAnioView.tipoGrafico == 'PORCIONES'}" legendPosition="w"/>
+							rendered="#{generalesPorAnioView.tipoGrafico == 'PORCIONES'}" legendPosition="w" renderer="#{generalesPorAnioView.renderChart}"/>
 						<p:barChart value="#{generalesPorAnioView.chartModel}"
-							rendered="#{generalesPorAnioView.tipoGrafico == 'BARRAS'}" legendPosition="ne"/>
+							rendered="#{generalesPorAnioView.tipoGrafico == 'BARRAS'}" legendPosition="ne" renderer="#{generalesPorAnioView.renderChart}"/>
 						<p:lineChart value="#{generalesPorAnioView.chartModel}"
-							rendered="#{generalesPorAnioView.tipoGrafico == 'LINEAS'}" legendPosition="se"/>
+							rendered="#{generalesPorAnioView.tipoGrafico == 'LINEAS'}" legendPosition="se" renderer="#{generalesPorAnioView.renderChart}"/>
 					</h:panelGroup>
-				</h:panelGroup>
-			</h:panelGrid>
+				</p:tab>
+			</p:accordionPanel>
 		</h:form>
 	</ui:define>
 </ui:composition>

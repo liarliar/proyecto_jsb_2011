@@ -4,7 +4,9 @@ import java.io.*;
 import java.util.*;
 
 import javax.annotation.*;
+import javax.faces.application.*;
 import javax.faces.bean.*;
+import javax.faces.context.*;
 
 import org.apache.commons.lang.math.*;
 import org.primefaces.model.chart.*;
@@ -26,6 +28,7 @@ public class GeneralesPorAnioView implements Serializable {
 	private TipoGrafico tipoGrafico;
 	private List<TipoGrafico> tiposGrafico;	
 	private ChartModel chartModel;
+	private boolean renderChart;
 	
 	public GeneralesPorAnioView () {
 		Calendar hoy  = Calendar.getInstance();
@@ -48,9 +51,17 @@ public class GeneralesPorAnioView implements Serializable {
 		case PORCIONES:
 			PieChartModel pieModel = new PieChartModel();
 			List<ZonaVisitante> zonas = estadisticaPorAnioRepository.getVisitantesPorZona(anio);
-			for (ZonaVisitante zonaVisitante : zonas) {
-				pieModel.set(zonaVisitante.getZona(), zonaVisitante.getVisitantes());
-				
+			if (zonas.isEmpty()) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No existen datos para mostrar.", ""));
+				pieModel.set("", 0);
+				renderChart = false;
+			} else {
+				renderChart = true;
+
+				for (ZonaVisitante zonaVisitante : zonas) {
+					pieModel.set(zonaVisitante.getZona(), zonaVisitante.getVisitantes());
+					
+				}
 			}
 			chartModel = pieModel;
 			break;
@@ -58,15 +69,24 @@ public class GeneralesPorAnioView implements Serializable {
 			CartesianChartModel cartesianModel = new CartesianChartModel();
 			List<ZonaVisitantePorAnio> visitantes = estadisticaPorAnioRepository.getVisitantesPorAnioEnCadaSala(anio);
 			
-			for (ZonaVisitantePorAnio zonaVisitantePorAnio : visitantes) {
-				ChartSeries serie = new ChartSeries(zonaVisitantePorAnio.getZona());
-				
-				for (AnioVisitante anioVisitante : zonaVisitantePorAnio.getVisitantesAnio()) {
-					serie.set( anioVisitante.getMes().name(), anioVisitante.getVisitantes());
+			if (visitantes.isEmpty()) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No existen datos para mostrar.", ""));
+				ChartSeries serie = new ChartSeries("");
+				serie.set("", 0);
+				cartesianModel.addSeries(serie);
+				renderChart = false;
+			} else {
+				renderChart = true;
+				for (ZonaVisitantePorAnio zonaVisitantePorAnio : visitantes) {
+					ChartSeries serie = new ChartSeries(zonaVisitantePorAnio.getZona());
+					
+					for (AnioVisitante anioVisitante : zonaVisitantePorAnio.getVisitantesAnio()) {
+						serie.set( anioVisitante.getMes().name(), anioVisitante.getVisitantes());
+					}
+					cartesianModel.addSeries(serie);				
 				}
-				cartesianModel.addSeries(serie);				
 			}
-			 chartModel = cartesianModel;
+			chartModel = cartesianModel;
 			break;
 		}
 	}
@@ -101,6 +121,10 @@ public class GeneralesPorAnioView implements Serializable {
 
 	public void setAnio(Integer anio) {
 		this.anio = anio;
+	}
+
+	public boolean isRenderChart() {
+		return renderChart;
 	}
 	
 	

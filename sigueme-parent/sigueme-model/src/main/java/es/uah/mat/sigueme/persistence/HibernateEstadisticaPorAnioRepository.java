@@ -31,11 +31,10 @@ public class HibernateEstadisticaPorAnioRepository extends HibernateDaoSupport i
 			public List<ZonaVisitante> doInHibernate(final Session session)
 					throws HibernateException, SQLException {
 				final List<ZonaVisitante> zonasVisitadas = new ArrayList<ZonaVisitante>();
-				final SQLQuery query = session.createSQLQuery("select count(a.\"idRecorrido\") visitantes, " +
-						"d.nombre from recorrido_mensajerfid a, mensajerfid b, " +
-						"puerta c, zona d where a.\"idMensaje\" = b.id and a.tipo = 'E' and " +
-						"b.idpuerta = c.id and c.idzona2 = d.id and extract(year from b.fecha) = :anio " +
-						"group by d.nombre;");
+				final SQLQuery query = session.createSQLQuery("select count(*) visitantes,nombre from ( " +
+						"select recorridoid,salaid from recorrido_sala " +
+								"where extract(year from fechaentrada) = :anio " +
+										"group by recorridoid,salaid) as visita,zona where visita.salaid=id group by nombre");
 				query.setInteger("anio", anio);
 				List<Object[]> result = query.list();
 				
@@ -58,13 +57,11 @@ public class HibernateEstadisticaPorAnioRepository extends HibernateDaoSupport i
 			public List<ZonaVisitantePorAnio> doInHibernate(Session session)
 					throws HibernateException, SQLException {
 				final List<ZonaVisitantePorAnio> visitantesPorAnio = new ArrayList<ZonaVisitantePorAnio>();
-				final SQLQuery query = session.createSQLQuery("select count(a.\"idRecorrido\") visitantes, " +
-						"extract(month from b.fecha) mes, d.nombre " +
-						"from recorrido_mensajerfid a, mensajerfid b, puerta c, " +
-						"zona d where a.\"idMensaje\" = b.id and a.tipo = 'E' and  " +
-						"b.idpuerta = c.id and c.idzona2 = d.id " +
-						"and extract(year from b.fecha) = :anio  group " +
-						"by d.nombre, mes order by d.nombre, mes");
+				final SQLQuery query = session.createSQLQuery("select count(*) visitantes,mes,nombre from ( " +
+						"select recorridoid,extract(month from fechaentrada) mes,salaid from recorrido_sala " +
+						" where extract(year from fechaentrada) = :anio " +
+						"group by recorridoid,salaid,extract(month from fechaentrada)) as visita,zona " +
+						"where visita.salaid=id group by nombre,mes");
 				
 				query.setInteger("anio", anio);
 				

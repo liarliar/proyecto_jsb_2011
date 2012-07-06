@@ -1,22 +1,24 @@
 package es.uah.mat.sigueme.view;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.*;
 
 import org.apache.commons.lang.math.RandomUtils;
+import org.primefaces.component.chart.pie.*;
+import org.primefaces.model.chart.*;
 
 import es.uah.mat.sigueme.bean.Resultado;
+import es.uah.mat.sigueme.estadistica.*;
+import es.uah.mat.sigueme.persistence.*;
 
 @ManagedBean
 @ViewScoped
 public class PorEstanciaView implements Serializable {
 
+	@ManagedProperty("#{estadisticaTiempoPorEstancia}")
+	private EstadisticaPorEstancia estadisticaTiempoPorEstancia;
 	/**
 	 * 
 	 */
@@ -27,6 +29,7 @@ public class PorEstanciaView implements Serializable {
 	private List<Resultado> resultados;
 	private Date desde;
 	private Date hasta;
+	private PieChartModel chartModel;
 
 	public PorEstanciaView () {
 		verTabsResultados = false;
@@ -34,12 +37,14 @@ public class PorEstanciaView implements Serializable {
 	}
 	
 	public void verResultados() {
+		chartModel = new PieChartModel();
 		resultados = new ArrayList<Resultado>();
 		verTabsResultados = true;
-		int indexAleatorio = RandomUtils.nextInt(6);
+		List<ZonaTiempoVisita> zonas = estadisticaTiempoPorEstancia.getTiempoPorSala(desde, hasta, tiempoEstancia);
 		
-		for (int i = 1; i < indexAleatorio; i++) {
-			resultados.add(new Resultado("Sala " + i, RandomUtils.nextLong()));
+		for (ZonaTiempoVisita zonaTiempoVisita : zonas) {
+			resultados.add(new Resultado(zonaTiempoVisita.getZona(), zonaTiempoVisita.getTiempo()));
+			chartModel.set(zonaTiempoVisita.getZona(), zonaTiempoVisita.getTiempo());
 		}
 		
 	}
@@ -79,6 +84,19 @@ public class PorEstanciaView implements Serializable {
 
 	public void setHasta(Date hasta) {
 		this.hasta = hasta;
+	}
+
+	public void setEstadisticaTiempoPorEstancia(
+			EstadisticaPorEstancia estadisticaTiempoPorEstancia) {
+		this.estadisticaTiempoPorEstancia = estadisticaTiempoPorEstancia;
+	}
+
+	public PieChartModel getChartModel() {
+		return chartModel;
+	}
+	
+	public String getCssZona(Resultado zona) {
+		return zona.getSala().replaceAll(" ", "");
 	}
 
 }

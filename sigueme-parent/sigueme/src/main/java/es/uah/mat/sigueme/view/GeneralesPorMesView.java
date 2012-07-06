@@ -4,7 +4,9 @@ import java.io.*;
 import java.util.*;
 
 import javax.annotation.*;
+import javax.faces.application.*;
 import javax.faces.bean.*;
+import javax.faces.context.*;
 
 import org.apache.commons.lang.math.*;
 import org.primefaces.model.chart.*;
@@ -27,6 +29,10 @@ public class GeneralesPorMesView implements Serializable {
 	private ChartModel chartModel;
 	private Mes mes;
 	private Integer anio;
+	private List<Integer> dias;
+	private Integer diaInicio;
+	private Integer diaFin;
+	private boolean renderChart;
 	
 	public GeneralesPorMesView () {
 		Calendar hoy = Calendar.getInstance();
@@ -34,6 +40,12 @@ public class GeneralesPorMesView implements Serializable {
 		anio = hoy.get(Calendar.YEAR);
 		tipoGrafico = TipoGrafico.PORCIONES;
 		tiposGrafico = Arrays.asList(TipoGrafico.values());
+		
+		dias = new ArrayList<Integer>();
+		
+		for (int i = 1; i < 31; i++) {
+			dias.add(i);
+		}
 	}
 
 	@PostConstruct
@@ -44,31 +56,51 @@ public class GeneralesPorMesView implements Serializable {
 	public void cambioTipoGrafico () {						
 		generarChartModel();		
 	}
+	
+	public void cambioDias () {						
+		generarChartModel();		
+	}
 
 	private void generarChartModel() {
 		switch (tipoGrafico) {
 		case PORCIONES:
 			PieChartModel pieModel = new PieChartModel();
-			List<ZonaVisitante> zonas = estadisticaPorMesRepository.getVisitantesPorZona(mes, anio);
-			for (ZonaVisitante zonaVisitante : zonas) {
-				pieModel.set(zonaVisitante.getZona(), zonaVisitante.getVisitantes());
-				
+			List<ZonaVisitante> zonas = estadisticaPorMesRepository.getVisitantesPorZona(mes, anio, new Rango(diaInicio, diaFin));
+			if (zonas.isEmpty()) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No existen datos para mostrar.", ""));
+				pieModel.set("", 0);
+				renderChart = false;
+			} else {
+				renderChart = true;
+				for (ZonaVisitante zonaVisitante : zonas) {
+					pieModel.set(zonaVisitante.getZona(), zonaVisitante.getVisitantes());
+					
+				}
 			}
 			chartModel = pieModel;
 			break;
 		default:		
 			CartesianChartModel cartesianModel = new CartesianChartModel();
-			List<ZonaVisitantePorDiaMes> visitantes = estadisticaPorMesRepository.getVisitantesPorDiaMesEnCadaSala(mes, anio);
+			List<ZonaVisitantePorDiaMes> visitantes = estadisticaPorMesRepository.getVisitantesPorDiaMesEnCadaSala(mes, anio, new Rango(diaInicio, diaFin));
 			
-			for (ZonaVisitantePorDiaMes zonaVisitantePorDiaMes : visitantes) {
-				ChartSeries serie = new ChartSeries(zonaVisitantePorDiaMes.getZona());
-				
-				for (MesVisitante mesVisitante : zonaVisitantePorDiaMes.getVisitantesMes()) {
-					serie.set((tipoGrafico == TipoGrafico.LINEAS) ? mesVisitante.getDiaMes() : String.valueOf(mesVisitante.getDiaMes()), mesVisitante.getVisitantes());
+			if (visitantes.isEmpty()) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No existen datos para mostrar.", ""));
+				ChartSeries serie = new ChartSeries("");
+				serie.set("", 0);
+				cartesianModel.addSeries(serie);
+				renderChart = false;
+			} else {
+				renderChart = true;
+				for (ZonaVisitantePorDiaMes zonaVisitantePorDiaMes : visitantes) {
+					ChartSeries serie = new ChartSeries(zonaVisitantePorDiaMes.getZona());
+					
+					for (MesVisitante mesVisitante : zonaVisitantePorDiaMes.getVisitantesMes()) {
+						serie.set((tipoGrafico == TipoGrafico.LINEAS) ? mesVisitante.getDiaMes() : String.valueOf(mesVisitante.getDiaMes()), mesVisitante.getVisitantes());
+					}
+					cartesianModel.addSeries(serie);				
 				}
-				cartesianModel.addSeries(serie);				
 			}
-			 chartModel = cartesianModel;
+			chartModel = cartesianModel;
 			break;
 		}
 	}
@@ -115,6 +147,30 @@ public class GeneralesPorMesView implements Serializable {
 	
 	public List<Mes> getMeses() {
 		return Arrays.asList(Mes.values());
+	}
+	
+	public Integer getDiaInicio() {
+		return diaInicio;
+	}
+
+	public void setDiaInicio(Integer diaInicio) {
+		this.diaInicio = diaInicio;
+	}
+
+	public Integer getDiaFin() {
+		return diaFin;
+	}
+
+	public void setDiaFin(Integer diaFin) {
+		this.diaFin = diaFin;
+	}
+
+	public List<Integer> getDias() {
+		return dias;
+	}
+
+	public boolean isRenderChart() {
+		return renderChart;
 	}
 	
 }

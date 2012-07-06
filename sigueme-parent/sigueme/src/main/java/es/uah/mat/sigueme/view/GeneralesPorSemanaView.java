@@ -4,8 +4,11 @@ import java.io.*;
 import java.util.*;
 
 import javax.annotation.*;
+import javax.faces.application.*;
 import javax.faces.bean.*;
+import javax.faces.context.*;
 
+import org.apache.commons.lang.*;
 import org.apache.commons.lang.math.*;
 import org.primefaces.event.*;
 import org.primefaces.model.chart.*;
@@ -27,6 +30,7 @@ public class GeneralesPorSemanaView implements Serializable {
 	private TipoGrafico tipoGrafico;
 	private List<TipoGrafico> tiposGrafico;	
 	private ChartModel chartModel;
+	private boolean renderChart;
 	
 	public GeneralesPorSemanaView () {
 		fecha = new Date();
@@ -54,9 +58,16 @@ public class GeneralesPorSemanaView implements Serializable {
 		case PORCIONES:
 			PieChartModel pieModel = new PieChartModel();
 			List<ZonaVisitante> zonas = estadisticaPorSemanaRepository.getVisitantesPorZona(fecha);
-			for (ZonaVisitante zonaVisitante : zonas) {
-				pieModel.set(zonaVisitante.getZona(), zonaVisitante.getVisitantes());
-				
+			if (zonas.isEmpty()) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No existen datos para mostrar.", ""));
+				pieModel.set("", 0);
+				renderChart = false;
+			} else {
+				renderChart = true;
+					for (ZonaVisitante zonaVisitante : zonas) {
+						pieModel.set(zonaVisitante.getZona(), zonaVisitante.getVisitantes());
+						
+					}
 			}
 			chartModel = pieModel;
 			break;
@@ -64,15 +75,31 @@ public class GeneralesPorSemanaView implements Serializable {
 			CartesianChartModel cartesianModel = new CartesianChartModel();
 			List<ZonaVisitantePorDiaSemana> visitantes = estadisticaPorSemanaRepository.getVisitantesPorDiaSemanaEnCadaSala(fecha);
 			
-			for (ZonaVisitantePorDiaSemana zonaVisitantePorDiaSemaan : visitantes) {
-				ChartSeries serie = new ChartSeries(zonaVisitantePorDiaSemaan.getZona());
-				
-				for (SemanaVisitante diaSemanaVisitante : zonaVisitantePorDiaSemaan.getSemanaVisitantes()) {
-					serie.set(diaSemanaVisitante.getDiaSemana().name(), diaSemanaVisitante.getVisitantes());
+			if (visitantes.isEmpty()) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("No existen datos para mostrar.", ""));
+				final ChartSeries serie = new ChartSeries("-");
+				serie.set("-", 0);
+				cartesianModel.addSeries(serie);
+				renderChart = false;
+			} else {
+				renderChart = true;
+				for (ZonaVisitantePorDiaSemana zonaVisitantePorDiaSemaan : visitantes) {
+					ChartSeries serie = new ChartSeries(zonaVisitantePorDiaSemaan.getZona());
+					Collections.sort(zonaVisitantePorDiaSemaan.getSemanaVisitantes(), new Comparator<SemanaVisitante>() {
+
+						@Override
+						public int compare(SemanaVisitante o1,
+								SemanaVisitante o2) {
+							return o1.getDiaSemana().compareTo(o2.getDiaSemana());
+						}
+					});
+					for (SemanaVisitante diaSemanaVisitante : zonaVisitantePorDiaSemaan.getSemanaVisitantes()) {
+						serie.set(diaSemanaVisitante.getDiaSemana().name(), diaSemanaVisitante.getVisitantes());
+					}
+					cartesianModel.addSeries(serie);				
 				}
-				cartesianModel.addSeries(serie);				
 			}
-			 chartModel = cartesianModel;
+			chartModel = cartesianModel;
 			break;
 		}
 	}
@@ -105,6 +132,10 @@ public class GeneralesPorSemanaView implements Serializable {
 	public void setEstadisticaPorSemanaRepository(
 			EstadisticaPorSemanaRepository estadisticaPorSemanaRepository) {
 		this.estadisticaPorSemanaRepository = estadisticaPorSemanaRepository;
+	}
+
+	public boolean isRenderChart() {
+		return renderChart;
 	}
 	
 }

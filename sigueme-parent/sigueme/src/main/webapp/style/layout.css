@@ -170,3 +170,85 @@ a:hover{
 	background: url("../images/mapa.png") no-repeat scroll 0pt 0pt transparent;
 	margin: auto;
 }
+
+.Zona1 {
+    color: red;
+    font-weight: bold;
+    left: 350px;
+    position: relative;
+    top: 247px;
+    text-align: center;
+    width: 50px;    
+}
+.Zona2 {
+    color: red;
+    font-weight: bold;
+    left: 50px;
+    position: relative;
+    top: 196px;
+    text-align: center;
+    width: 50px;    
+	
+}
+.Zona3 {
+    color: red;
+    font-weight: bold;
+    left: 168px;
+    position: relative;
+    top: 91px;
+    text-align: center;
+    width: 50px;    
+	
+}
+.Zona4 {
+    color: red;
+    font-weight: bold;
+    left: 322px;
+    position: relative;
+    top: 85px;
+	
+}
+.Zona5 {
+    color: red;
+    font-weight: bold;
+    left: 350px;
+    position: relative;
+    top: 247px;
+    text-align: center;
+    width: 50px;    
+	
+}
+
+#menu {
+	background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #C4C4C4;
+    border: 1px solid #A8A8A8;
+    color: #333333;
+    font-weight: bold;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+	 padding-bottom: 0.2em;
+}
+
+div.grupoMenu {
+	display: table-cell;
+	padding: 0.3em;
+}
+
+div.separadorMenu {
+	 border-left: 1px outset black;
+}
+
+div.tituloMenu  {
+	margin-bottom: 0.7em;
+}
+
+div.grupoMenu a {
+	background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #C4C4C4;
+    border: 1px solid #A8A8A8;
+    padding: 0.4em 1em;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+    margin-right: 0.1em;
+}
+
+div.grupoMenu a:hover {
+	background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #C4C4C4;
+}
