@@ -68,7 +68,7 @@
 					<h:panelGroup layout="block" style="width:100%">
 						<h:selectOneMenu value="#{generalesPorMesView.mes}">
 							<f:selectItems value="#{generalesPorMesView.meses}"></f:selectItems>
-							<p:ajax event="change" update="graficoMensual"
+							<p:ajax event="change" update="graficoMensual diaFin"
 								listener="#{generalesPorMesView.cambioTipoGrafico}" />
 						</h:selectOneMenu>
 						<p:spinner value="#{generalesPorMesView.anio}">

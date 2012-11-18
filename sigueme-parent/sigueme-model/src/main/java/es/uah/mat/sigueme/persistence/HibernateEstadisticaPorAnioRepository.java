@@ -34,7 +34,7 @@ public class HibernateEstadisticaPorAnioRepository extends HibernateDaoSupport i
 				final SQLQuery query = session.createSQLQuery("select count(*) visitantes,nombre from ( " +
 						"select recorridoid,salaid from recorrido_sala " +
 								"where extract(year from fechaentrada) = :anio " +
-										"group by recorridoid,salaid) as visita,zona where visita.salaid=id group by nombre");
+										"group by recorridoid,salaid) as visita,zona where visita.salaid=id group by nombre order by nombre desc");
 				query.setInteger("anio", anio);
 				List<Object[]> result = query.list();
 				
@@ -61,7 +61,7 @@ public class HibernateEstadisticaPorAnioRepository extends HibernateDaoSupport i
 						"select recorridoid,extract(month from fechaentrada) mes,salaid from recorrido_sala " +
 						" where extract(year from fechaentrada) = :anio " +
 						"group by recorridoid,salaid,extract(month from fechaentrada)) as visita,zona " +
-						"where visita.salaid=id group by nombre,mes");
+						"where visita.salaid=id group by nombre,mes order by nombre,mes");
 				
 				query.setInteger("anio", anio);
 				
@@ -73,7 +73,8 @@ public class HibernateEstadisticaPorAnioRepository extends HibernateDaoSupport i
 						anioVisitante.put(zona, new ArrayList<AnioVisitante>());
 					}
 					
-					final Mes mes = Mes.values()[((Double)columnas[1]).intValue()];
+					final int enumMes = ((Double)columnas[1]).intValue() - 1;
+					final Mes mes = Mes.values()[enumMes];
 					anioVisitante.get(zona).add(new AnioVisitante(mes, ((BigInteger)columnas[0]).longValue()));
 				}
 				

@@ -34,7 +34,7 @@ public class HibernateEstadisticaPorSemanaRepository extends HibernateDaoSupport
 				final SQLQuery query = session.createSQLQuery("select count(*) visitantes,nombre from (select recorridoid,salaid from recorrido_sala " +
 						" where cast(fechaentrada as date) >= :inicio and cast(fechaentrada as date) <= :fin " + 
 						" group by recorridoid,salaid) as visita,zona where visita.salaid=id " +
-						" group by nombre");
+						" group by nombre order by nombre desc");
 				query.setDate("inicio", getInicioSemana(fecha));
 				query.setDate("fin", getFinSemana(fecha));
 				List<Object[]> result = query.list();

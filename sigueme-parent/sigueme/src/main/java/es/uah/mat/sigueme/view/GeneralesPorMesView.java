@@ -41,11 +41,7 @@ public class GeneralesPorMesView implements Serializable {
 		tipoGrafico = TipoGrafico.PORCIONES;
 		tiposGrafico = Arrays.asList(TipoGrafico.values());
 		
-		dias = new ArrayList<Integer>();
-		
-		for (int i = 1; i < 31; i++) {
-			dias.add(i);
-		}
+		updateDayOfMonths();
 	}
 
 	@PostConstruct
@@ -134,6 +130,16 @@ public class GeneralesPorMesView implements Serializable {
 
 	public void setMes(Mes mes) {
 		this.mes = mes;
+		updateDayOfMonths();
+	}
+
+	private void updateDayOfMonths() {
+		Calendar calendario = Calendar.getInstance();
+		calendario.set(Calendar.MONTH, mes.ordinal());
+		dias = new ArrayList<Integer>();
+		for (int i = 1; i <= calendario.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
+			dias.add(i);
+		}
 	}
 
 	public Integer getAnio() {

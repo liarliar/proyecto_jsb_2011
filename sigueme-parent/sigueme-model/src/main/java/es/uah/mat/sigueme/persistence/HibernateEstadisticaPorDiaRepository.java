@@ -36,7 +36,7 @@ public class HibernateEstadisticaPorDiaRepository extends HibernateDaoSupport im
 						"select recorridoid,salaid from recorrido_sala " +
 						"where cast(fechaentrada as date) = :fecha " + getSqlRangoFechas(rangoHoras) +
 								" group by recorridoid,salaid) as visita,zona " +
-						" where visita.salaid=id group by nombre");
+						" where visita.salaid=id group by nombre order by nombre desc");
 				
 				setRangosFecha(rangoHoras, query);
 				query.setDate("fecha", fecha);

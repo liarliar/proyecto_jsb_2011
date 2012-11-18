@@ -5,10 +5,16 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 <ui:composition>
-	<h1>Cabecera de la aplicación</h1>
+	<h1>Sigueme 2.0</h1>
 	<div id="menu">
 		<h:form>
 			<div class="grupoMenu">
+				<div class="tituloMenu">
+					<h:outputText value="#{msg['menu.mensajesRFID']}"/>
+				</div>
+				<h:link value="#{msg['menu.listadoMensajesRFID']}" outcome="/index" />
+			</div>
+			<div class="grupoMenu separadorMenu">
 				<div class="tituloMenu">
 					<h:outputText value="#{msg['menu.simulador']}"/>
 				</div>
