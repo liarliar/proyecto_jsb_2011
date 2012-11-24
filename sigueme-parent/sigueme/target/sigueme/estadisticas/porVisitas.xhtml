@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/WEB-INF/templates/layout.xhtml">
+	<ui:define name="content">
+		<h:form id="estadisticas">
+			<p:panel header="Estadisticas por visitas"
+				toggleable="true" toggleSpeed="100">
+				<h:panelGroup style="margin-right:5px;">
+					<h:outputText value="#{msg['estadisticas.fechaDesde']}" />: <p:calendar
+						value="#{porVisitasView.desde}" showOn="button" />
+				</h:panelGroup>
+				<h:panelGroup  style="margin-right:5px;">
+					<h:outputText value="#{msg['estadisticas.fechaHasta']}" />: <p:calendar
+						value="#{porVisitasView.hasta}" showOn="button" />
+				</h:panelGroup>
+				<div style="text-align: right;">
+					<p:commandButton value="#{msg['boton.verResultados']}"
+						action="#{porVisitasView.verResultados}" update="tabs" />
+				</div>
+			</p:panel>
+			<p:spacer />
+			<h:panelGroup layout="block" id="tabs">
+				<p:dataTable value="#{porVisitasView.rutas}" var="ruta" paginator="true" rows="10" pageLinks="5"  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+						<p:ajax event="rowToggle" listener="#{porVisitasView.onRowToggle}"/>
+						<p:column>
+							<p:rowToggler/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Direccion Larga" />
+							</f:facet>
+							<h:outputText value="#{ruta.direccionLarga}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Fecha inicio" />
+							</f:facet>
+							<h:outputText value="#{ruta.inicio}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Fecha fin" />
+							</f:facet>
+							<h:outputText value="#{ruta.fin}" />
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Duración (hh:mm:ss)" />
+							</f:facet>
+							<h:outputText value="#{ruta.duracion}" converter="milisecondsConverter"/>
+						</p:column>
+						<p:rowExpansion>
+							<p:dataTable value="#{porVisitasView.ruta}" var="recorridoSala">
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Fecha entrada" />
+								</f:facet>
+								<h:outputText value="#{recorridoSala.fechaEntrada}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Fecha salida" />
+								</f:facet>
+								<h:outputText value="#{recorridoSala.fechaSalida}" />
+							</p:column>
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Zona" />
+								</f:facet>
+								<h:outputText value="#{recorridoSala.zona.nombre}" />
+							</p:column>
+						</p:dataTable>
+					</p:rowExpansion>
+				</p:dataTable>
+			</h:panelGroup>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

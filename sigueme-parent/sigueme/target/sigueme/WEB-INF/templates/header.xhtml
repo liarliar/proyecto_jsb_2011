@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition>
+	<h1>Sigueme 2.0</h1>
+	<div id="menu">
+		<h:form>
+			<div class="grupoMenu">
+				<div class="tituloMenu">
+					<h:outputText value="#{msg['menu.mensajesRFID']}"/>
+				</div>
+				<h:link value="#{msg['menu.listadoMensajesRFID']}" outcome="/index" />
+			</div>
+			<div class="grupoMenu separadorMenu">
+				<div class="tituloMenu">
+					<h:outputText value="#{msg['menu.simulador']}"/>
+				</div>
+				<h:link value="Generar rutas" outcome="/simulador" />
+			</div>
+			<div class="grupoMenu separadorMenu">
+				<div class="tituloMenu">
+				<h:outputText value="#{msg['menu.estadisticas']}"/>
+				</div>
+				<h:link value="#{msg['menu.estadisticas.generales']}"  outcome="/estadisticas/generales"/>
+				<h:link value="#{msg['menu.estadisticas.porEstancia']}"  outcome="/estadisticas/porEstancia"/>
+				<h:link value="#{msg['menu.estadisticas.porVisitas']}"  outcome="/estadisticas/porVisitas"/>
+			</div>
+		</h:form>
+	</div>
+</ui:composition>
+</html>

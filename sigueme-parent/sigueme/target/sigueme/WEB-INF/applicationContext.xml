@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd		
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd		
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd		
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd		
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd		
+	http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+	http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+	
+	<context:annotation-config />
+	<aop:aspectj-autoproxy />
+	
+	<context:component-scan base-package="es.uah.mat.sigueme" />
+	
+
+  <context:property-placeholder location="classpath*:sigueme.properties" />
+  
+		
+	<!-- | JNDI DataSource for J2EE environments (if you are running inside an 
+		Application Server) | Anyway, you could redefine de dataSource bean in other 
+		applicationContext. -->
+	<!-- jdbc:embedded-database id="dataSource" type="H2"/-->
+	
+ 	<bean id="siguemeDataBase" class="org.springframework.jndi.JndiObjectFactoryBean"> 
+ 		<property name="jndiName" value="${jndi.name}" />
+	</bean>	 
+	
+	<!-- | Faces i18n messages properties -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>classpath:messages</value>
+			</list>
+		</property>
+		<property name="useCodeAsDefaultMessage" value="false" />
+	</bean>
+	<bean id="messageSourceAccessor"
+		class="org.springframework.context.support.MessageSourceAccessor">
+		<constructor-arg ref="messageSource" />
+	</bean>	
+</beans> 

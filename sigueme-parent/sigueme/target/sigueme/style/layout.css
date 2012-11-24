@@ -1,0 +1,254 @@
+body {
+	margin: 0em;
+	padding: 0;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #000;
+}
+
+h1, h2, h3 {
+	margin: 0.4em;
+	font-weight: normal;
+}
+
+.error {
+	color:#BF0303;
+}
+
+div#wrapper{
+	margin:auto;
+	width:1014px;
+}
+
+div#login form#j_security{
+	display:none;
+}
+
+div#login .ui-dialog-titlebar {
+   display: none !important;
+}
+
+div#login .ui-dialog .ui-dialog-content {
+	height: 100px !important;
+}
+
+div#login form#f_waitingDialog img{
+	margin-left:20px;
+	margin-right:15px;
+}
+div#login form#f_waitingDialog span{
+	position: relative;
+	top: -10px;
+}
+	
+div#header{
+	height:4em;
+	width:100%;
+	margin-top:2em;
+	margin-bottom:2em;
+}
+div#header h1{
+	float:right;
+}
+
+div#main{
+	width:100%;
+	padding:0.5em;
+	margin-top:0.5em;
+}
+
+div#main div#title{
+	margin-top:0.5em;
+	font-size: 2em;
+}
+
+div#main div#content{
+	padding:1em;
+}
+
+
+.ui-message-error{
+	margin:0;
+	margin-top:0.5em;
+}
+
+.ui-growl{
+	width:450px;
+}
+.ui-growl-message{
+	width:380px;
+}
+.ui-growl-message pre{
+	margin:0;
+}
+
+#input.ui-button {
+	padding: 1em;
+}
+input.ui-button:hover{
+	cursor:pointer;
+}
+.ui-datatable th{
+	text-align:left;
+}
+.ui-editable-column-options .ui-icon{
+	background-repeat: repeat;
+}	
+.ui-editable-column-options .ui-icon-pencil{
+	background-image: url(./images/pencil.png)
+}
+.ui-editable-column-options .ui-icon-check{
+	background-image: url(./images/check.png)
+}
+.ui-editable-column-options .ui-icon-close{
+	margin-left:0.5em;
+	background-image: url(./images/close.png)
+}
+.ui-editable-column-options .ui-icon-remove{
+	float:left;
+	margin-left:0.5em;
+	background-image: url(./images/remove.png)
+}
+.ui-icon-home{
+	float:left;
+	margin-left:0.5em;
+	background-image: url(./images/home.png)
+}
+
+a{
+	color: #123456;
+    text-decoration: none;
+}
+a:hover{
+	color:#60BE3A;
+}
+
+#breadcumb img {
+	position:relative;
+	top:1px;
+	border: 0px;
+}
+
+.ui-datepicker-trigger{
+	margin-left: 0.5em;
+}
+.hasDatepicker{
+	width:100px;
+}
+
+#footer {
+   height:3em;
+   font-size: 10px;
+   margin-top:3em;
+}
+
+#footer #app{
+	float:left;
+}
+
+#footer #copy{
+	float:right;
+}
+.h2{
+   font-size: 2em;
+   font-weight:boler;
+}
+.h3{
+   font-size: 1.5em;
+   font-weight:boler;
+}
+.results{
+	font-size:1.1em;
+}
+.chart{
+	width:100%;
+}
+
+#estadisticas\:mapa {
+	width: 450px; 
+	height: 400px; 
+	background: url("../images/mapa.png") no-repeat scroll 0pt 0pt transparent;
+	margin: auto;
+}
+
+.Zona1 {
+    color: red;
+    font-weight: bold;
+    left: 350px;
+    position: relative;
+    top: 247px;
+    text-align: center;
+    width: 50px;    
+}
+.Zona2 {
+    color: red;
+    font-weight: bold;
+    left: 50px;
+    position: relative;
+    top: 196px;
+    text-align: center;
+    width: 50px;    
+	
+}
+.Zona3 {
+    color: red;
+    font-weight: bold;
+    left: 168px;
+    position: relative;
+    top: 91px;
+    text-align: center;
+    width: 50px;    
+	
+}
+.Zona4 {
+    color: red;
+    font-weight: bold;
+    left: 322px;
+    position: relative;
+    top: 85px;
+	
+}
+.Zona5 {
+    color: red;
+    font-weight: bold;
+    left: 350px;
+    position: relative;
+    top: 247px;
+    text-align: center;
+    width: 50px;    
+	
+}
+
+#menu {
+	background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #C4C4C4;
+    border: 1px solid #A8A8A8;
+    color: #333333;
+    font-weight: bold;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+	 padding-bottom: 0.2em;
+}
+
+div.grupoMenu {
+	display: table-cell;
+	padding: 0.3em;
+}
+
+div.separadorMenu {
+	 border-left: 1px outset black;
+}
+
+div.tituloMenu  {
+	margin-bottom: 0.7em;
+}
+
+div.grupoMenu a {
+	background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #C4C4C4;
+    border: 1px solid #A8A8A8;
+    padding: 0.4em 1em;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+    margin-right: 0.1em;
+}
+
+div.grupoMenu a:hover {
+	background: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)) repeat scroll 0 0 #C4C4C4;
+}
